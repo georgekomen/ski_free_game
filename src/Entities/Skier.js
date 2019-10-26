@@ -113,10 +113,12 @@ export class Skier extends Entity {
             return intersectTwoRects(skierBounds, obstacleBounds);
         });
 
-        if(!collision) {
-            return;
+        if(collision) {
+            this.checkIfShouldJumpOrCrashAfterCollision(obstacleName);    
         }
+    }
 
+    checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
         if (this.canJumpObstacle(obstacleName)) {
             this.jump();
         } else {
