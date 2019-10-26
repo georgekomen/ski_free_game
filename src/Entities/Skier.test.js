@@ -3,11 +3,10 @@ import { Skier } from "./Skier";
 import * as Constants from "../Constants";
 
 describe('skier turn behaviour', () => {
-    const skier = new Skier(100, 100);
+    const skier = new Skier(5, 5);
     let setDirection;
     let moveSkierLeft;
     let moveSkierRight;
-
 
     test('class should initialize', () => {
         expect(skier).toBeTruthy();
@@ -50,7 +49,6 @@ describe('skier turn behaviour', () => {
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.LEFT);
             expect(moveSkierLeft).toHaveBeenCalled();
         });
-
     });
 
 
@@ -92,6 +90,5 @@ describe('skier turn behaviour', () => {
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(moveSkierRight).toHaveBeenCalled();
         });
-
     });
 });
