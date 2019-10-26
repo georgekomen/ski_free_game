@@ -70,7 +70,7 @@ describe('skier turn behaviour', () => {
             expect(moveSkierRight).not.toHaveBeenCalled();
         });
 
-        test('should move right if turned left while moving right down', () => {
+        test('should move right if turned right while moving right down', () => {
             skier.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
 
             skier.turnRight();
