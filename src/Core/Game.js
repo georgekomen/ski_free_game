@@ -78,6 +78,10 @@ export class Game {
                 this.skier.turnDown();
                 event.preventDefault();
                 break;
+            case Constants.KEYS.SHIFT:
+                this.skier.jump();
+                event.preventDefault();
+                break;
         }
     }
 }

@@ -8,6 +8,8 @@ export class Skier extends Entity {
     direction = Constants.SKIER_DIRECTIONS.DOWN;
     speed = Constants.SKIER_STARTING_SPEED;
 
+    scheduledJumpTimeOut;
+
     constructor(x, y) {
         super(x, y);
     }
@@ -119,7 +121,7 @@ export class Skier extends Entity {
     }
 
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
-        if (this.canJumpObstacle(obstacleName)) {
+        if (obstacleName == Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
             this.jump();
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
@@ -134,7 +136,9 @@ export class Skier extends Entity {
         this.speed = Constants.SKIER_JUMPING_SPEED;
         this.updateAsset(Constants.SKIER_DIRECTIONS.JUMP);
 
-        setTimeout(() => {
+        clearTimeout(this.scheduledJumpTimeOut);
+        
+        this.scheduledJumpTimeOut = setTimeout(() => {
             this.speed = Constants.SKIER_STARTING_SPEED;
             this.updateAsset(this.direction);
         }, Constants.SKIER_JUMP_TIME);
