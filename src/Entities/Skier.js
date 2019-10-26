@@ -32,6 +32,9 @@ export class Skier extends Entity {
             case Constants.SKIER_DIRECTIONS.RIGHT_DOWN:
                 this.moveSkierRightDown();
                 break;
+            case Constants.SKIER_DIRECTIONS.JUMP:
+                this.jump();
+                break;
         }
     }
 
@@ -90,6 +93,7 @@ export class Skier extends Entity {
     }
 
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
+        let obstacleName;
         const asset = assetManager.getAsset(this.assetName);
         const skierBounds = new Rect(
             this.x - asset.width / 2,
@@ -99,7 +103,8 @@ export class Skier extends Entity {
         );
 
         const collision = obstacleManager.getObstacles().find((obstacle) => {
-            const obstacleAsset = assetManager.getAsset(obstacle.getAssetName());
+            obstacleName = obstacle.getAssetName();
+            const obstacleAsset = assetManager.getAsset(obstacleName);
             const obstaclePosition = obstacle.getPosition();
             const obstacleBounds = new Rect(
                 obstaclePosition.x - obstacleAsset.width / 2,
@@ -112,7 +117,19 @@ export class Skier extends Entity {
         });
 
         if(collision) {
-            this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
+            if (this.canJumpObstacle(obstacleName)) {
+                this.setDirection(Constants.SKIER_DIRECTIONS.JUMP);
+            } else {
+                this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
+            }
         }
-    };
+    }
+
+    canJumpObstacle(obstacleName) {
+        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName);
+    }
+
+    jump() {
+        this.y += (this.speed + 5);
+    }
 }

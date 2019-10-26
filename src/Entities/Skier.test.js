@@ -88,7 +88,6 @@ describe('skier turn behaviour', () => {
             skier.turnRight();
 
             expect(skier.assetName).toBe(Constants.SKIER_RIGHT);
-
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(moveSkierRight).toHaveBeenCalled();
