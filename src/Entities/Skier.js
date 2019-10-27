@@ -119,7 +119,7 @@ export class Skier extends Entity {
     }
 
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
-        if (obstacleName == Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
+        if (obstacleName === Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
             this.jump();
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
@@ -127,11 +127,11 @@ export class Skier extends Entity {
     }
 
     canJumpObstacle(obstacleName) {
-        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) && this.isJumping(); 
+        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) && this.isJumping();
     }
 
     isJumping() {
-        return this.assetName === Constants.SKIER_DIRECTION_ASSET[Constants.SKIER_DIRECTIONS.JUMP];
+        return this.speed === Constants.SKIER_JUMPING_SPEED;
     }
 
     jump() {

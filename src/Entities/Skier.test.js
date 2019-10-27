@@ -5,14 +5,14 @@ import * as Constants from "../Constants";
 describe('skier turn behaviour', () => {
     const skier = new Skier(5, 5);
     let setDirection;
-    let moveSkierLeft;
-    let moveSkierRight;
 
     test('class should initialize', () => {
         expect(skier).toBeTruthy();
     });
 
     describe('skier behavior when turned left', () => {
+        let moveSkierLeft;
+
         beforeEach(() => {
             setDirection = jest.spyOn(skier, 'setDirection');
             moveSkierLeft = jest.spyOn(skier, 'moveSkierLeft');
@@ -53,6 +53,8 @@ describe('skier turn behaviour', () => {
 
 
     describe('skier behavior when turned right', () => {
+        let moveSkierRight;
+
         beforeEach(() => {
             setDirection = jest.spyOn(skier, 'setDirection');
             moveSkierRight = jest.spyOn(skier, 'moveSkierRight');
@@ -89,6 +91,48 @@ describe('skier turn behaviour', () => {
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(moveSkierRight).toHaveBeenCalled();
+        });
+    });
+
+
+    describe('skier jumping', () => {
+        let jump;
+
+        beforeEach(() => {
+            jump = jest.spyOn(skier, 'jump');
+            skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        });
+
+        test('skier should always jump over jump rumps', () => {
+            skier.checkIfShouldJumpOrCrashAfterCollision(Constants.JUMP_RUMP);
+
+            expect(jump).toHaveBeenCalled();
+        });
+
+        test('skier is jumping if he moves at jumping speed', () => {
+            skier.speed = Constants.SKIER_JUMPING_SPEED;
+
+            expect(skier.isJumping()).toBe(true);
+        });
+
+        test('skier should jump over rocks only if already in jumping mode / speed', () => {
+            skier.speed = Constants.SKIER_JUMPING_SPEED;
+
+            expect(skier.isJumping()).toBe(true);
+            expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(true);
+
+            skier.checkIfShouldJumpOrCrashAfterCollision(Constants.ROCK1);
+
+            expect(jump).toHaveBeenCalled();
+        });
+
+        test('skier should not jump over rocks if not in jumping mode / speed', () => {
+            skier.speed = Constants.SKIER_STARTING_SPEED;
+
+            expect(skier.isJumping()).toBe(false);
+            expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(false);
+            
+            skier.checkIfShouldJumpOrCrashAfterCollision(Constants.ROCK1);
         });
     });
 });
