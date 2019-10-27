@@ -10,6 +10,10 @@ describe('skier turn behaviour', () => {
         expect(skier).toBeTruthy();
     });
 
+    afterEach(() => {    
+        jest.clearAllMocks();
+    });
+
     describe('skier behavior when turned left', () => {
         let moveSkierLeft;
 
@@ -133,6 +137,8 @@ describe('skier turn behaviour', () => {
             expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(false);
             
             skier.checkIfShouldJumpOrCrashAfterCollision(Constants.ROCK1);
+
+            expect(jump).not.toHaveBeenCalled();
         });
     });
 });
