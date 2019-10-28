@@ -1,12 +1,8 @@
 import * as Constants from "../Constants";
 import { Entity } from "./Entity";
+import { MovableEntity } from "./MovableEntity";
 
-export class Yeti extends Entity {
-    assetName = Constants.RHINO;
-
-    direction = Constants.SKIER_DIRECTIONS.DOWN;
-    speed = Constants.SKIER_STARTING_SPEED;
-
+export class Yeti extends MovableEntity {
     constructor(x, y) {
         super(x, y);
     }
