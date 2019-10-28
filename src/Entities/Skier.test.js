@@ -114,7 +114,7 @@ describe('skier turn behaviour', () => {
             skier.jump();
 
             expect(skier.speed).toBe(Constants.SKIER_JUMPING_SPEED);
-            expect(skier.assetName).toBe(Constants.SKIER_DIRECTION_ASSET[Constants.SKIER_DIRECTIONS.JUMP]);
+            expect(skier.assetName).toBe(Constants.SKIER_JUMPING_POSTURE_ASSET[Constants.SKIER_JUMPING_POSTURE.JUMP1]);
         });
 
         test('skier should always jump over jump rumps', () => {

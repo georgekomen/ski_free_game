@@ -18,7 +18,11 @@ export class Skier extends Entity {
     }
 
     updateAsset(assetId) {
-        this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
+        if (this.isJumping()) {
+            this.assetName = Constants.SKIER_JUMPING_POSTURE_ASSET[assetId];
+        } else {
+            this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
+        }
     }
 
     move() {
@@ -136,11 +140,15 @@ export class Skier extends Entity {
 
     jump() {
         this.speed = Constants.SKIER_JUMPING_SPEED;
-        this.updateAsset(Constants.SKIER_DIRECTIONS.JUMP);
+        this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP1);
 
         setTimeout(() => {
             this.speed = Constants.SKIER_STARTING_SPEED;
             this.updateAsset(this.direction);
         }, Constants.SKIER_JUMP_TIME);
+    }
+
+    jumpingAnimation() {
+
     }
 }
