@@ -99,12 +99,22 @@ describe('skier turn behaviour', () => {
     });
 
 
-    describe('skier jumping', () => {
+    describe('skier conditions for jumping', () => {
         let jump;
 
         beforeEach(() => {
             jump = jest.spyOn(skier, 'jump');
             skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        });
+
+        test('skier should increase speed and be on jumping asset when jumping', () => {
+            expect(skier.assetName).toBe(Constants.SKIER_DIRECTION_ASSET[Constants.SKIER_DIRECTIONS.DOWN]);
+            expect(skier.speed).toBe(Constants.SKIER_STARTING_SPEED);
+
+            skier.jump();
+
+            expect(skier.speed).toBe(Constants.SKIER_JUMPING_SPEED);
+            expect(skier.assetName).toBe(Constants.SKIER_DIRECTION_ASSET[Constants.SKIER_DIRECTIONS.JUMP]);
         });
 
         test('skier should always jump over jump rumps', () => {
@@ -124,6 +134,7 @@ describe('skier turn behaviour', () => {
 
             expect(skier.isJumping()).toBe(true);
             expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(true);
+            expect(skier.canJumpObstacle(Constants.ROCK2)).toBe(true);
 
             skier.checkIfShouldJumpOrCrashAfterCollision(Constants.ROCK1);
 
@@ -135,8 +146,20 @@ describe('skier turn behaviour', () => {
 
             expect(skier.isJumping()).toBe(false);
             expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(false);
+            expect(skier.canJumpObstacle(Constants.ROCK2)).toBe(false);
             
             skier.checkIfShouldJumpOrCrashAfterCollision(Constants.ROCK1);
+
+            expect(jump).not.toHaveBeenCalled();
+        });
+
+        test('skier should never jump over trees even on jumping mode / speed', () => {
+            skier.speed = Constants.SKIER_JUMPING_SPEED;
+
+            expect(skier.canJumpObstacle(Constants.TREE)).toBe(false);
+            expect(skier.canJumpObstacle(Constants.TREE_CLUSTER)).toBe(false);
+            
+            skier.checkIfShouldJumpOrCrashAfterCollision(Constants.TREE);
 
             expect(jump).not.toHaveBeenCalled();
         });
