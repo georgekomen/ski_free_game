@@ -1,16 +1,19 @@
 import * as Constants from "../Constants";
 import { intersectTwoRects, Rect } from "../Core/Utils";
-import { MovableEntity } from "./MovableEntity";
+import { Entity } from "./Entity";
 
-export class Skier extends MovableEntity {
+export class Skier extends Entity {
+    assetName = Constants.SKIER_DOWN;
+    direction = Constants.SKIER_DIRECTIONS.DOWN;
+    speed = Constants.SKIER_STARTING_SPEED;
 
     constructor(x, y) {
         super(x, y);
+    }
 
-        this.assetName = Constants.SKIER_DOWN;
-        this.direction = Constants.DIRECTIONS.DOWN;
-        this.speed = Constants.SKIER_STARTING_SPEED;
-        this.startingSpeed = Constants.SKIER_STARTING_SPEED;
+    setDirection(direction) {
+        this.direction = direction;
+        this.updateAsset(direction);
     }
 
     updateAsset(assetId) {
@@ -23,44 +26,70 @@ export class Skier extends MovableEntity {
 
     move() {
         switch(this.direction) {
-            case Constants.DIRECTIONS.LEFT_DOWN:
-                this.moveLeftDown();
+            case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
+                this.moveSkierLeftDown();
                 break;
-            case Constants.DIRECTIONS.DOWN:
-                this.moveDown();
+            case Constants.SKIER_DIRECTIONS.DOWN:
+                this.moveSkierDown();
                 break;
-            case Constants.DIRECTIONS.RIGHT_DOWN:
-                this.moveRightDown();
+            case Constants.SKIER_DIRECTIONS.RIGHT_DOWN:
+                this.moveSkierRightDown();
                 break;
         }
     }
 
+    moveSkierLeft() {
+        this.x -= Constants.SKIER_STARTING_SPEED;
+    }
+
+    moveSkierLeftDown() {
+        this.x -= this.speed / Constants.DIAGONAL_SPEED_REDUCER;
+        this.y += this.speed / Constants.DIAGONAL_SPEED_REDUCER;
+    }
+
+    moveSkierDown() {
+        this.y += this.speed;
+    }
+
+    moveSkierRightDown() {
+        this.x += this.speed / Constants.DIAGONAL_SPEED_REDUCER;
+        this.y += this.speed / Constants.DIAGONAL_SPEED_REDUCER;
+    }
+
+    moveSkierRight() {
+        this.x += Constants.SKIER_STARTING_SPEED;
+    }
+
+    moveSkierUp() {
+        this.y -= Constants.SKIER_STARTING_SPEED;
+    }
+
     turnLeft() {
-        if(this.direction == Constants.DIRECTIONS.DOWN){
-            this.setDirection(Constants.DIRECTIONS.LEFT_DOWN);
+        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
+            this.setDirection(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
         } else {
-            this.setDirection(Constants.DIRECTIONS.LEFT);
-            this.moveLeft();
+            this.setDirection(Constants.SKIER_DIRECTIONS.LEFT);
+            this.moveSkierLeft();
         }
     }
 
     turnRight() {
-        if(this.direction == Constants.DIRECTIONS.DOWN){
-            this.setDirection(Constants.DIRECTIONS.RIGHT_DOWN);
+        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
+            this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
         } else {
-            this.setDirection(Constants.DIRECTIONS.RIGHT);
-            this.moveRight();
+            this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT);
+            this.moveSkierRight();
         }
     }
 
     turnUp() {
-        if(this.direction === Constants.DIRECTIONS.LEFT || this.direction === Constants.DIRECTIONS.RIGHT) {
-            this.moveUp();
+        if(this.direction === Constants.SKIER_DIRECTIONS.LEFT || this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
+            this.moveSkierUp();
         }
     }
 
     turnDown() {
-        this.setDirection(Constants.DIRECTIONS.DOWN);
+        this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
     }
 
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
@@ -96,7 +125,7 @@ export class Skier extends MovableEntity {
         if (obstacleName === Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
             this.jump();
         } else {
-            this.setDirection(Constants.DIRECTIONS.CRASH);
+            this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
         }
     }
 
@@ -117,7 +146,7 @@ export class Skier extends MovableEntity {
         }, (Constants.SKIER_JUMP_TIME / 5));
 
         setTimeout(() => {
-            this.speed = this.startingSpeed;
+            this.speed = Constants.SKIER_STARTING_SPEED;
             this.updateAsset(this.direction);
             clearInterval(jumpingAnimationInterval);
         }, Constants.SKIER_JUMP_TIME);

@@ -1,15 +1,13 @@
 import * as Constants from "../Constants";
-import { MovableEntity } from "./MovableEntity";
 import { randomInt } from "../Core/Utils";
+import { Entity } from "./Entity";
 
-export class Rhino extends MovableEntity {
+export class Rhino extends Entity {
+    assetName = Constants.RHINO;
+    speed = Constants.RHINO_SPEED;
+
     constructor(x, y) {
         super(x, y);
-
-        this.assetName = Constants.RHINO;
-        this.direction = Constants.DIRECTIONS.DOWN;
-        this.speed = Constants.SKIER_STARTING_SPEED;
-        this.startingSpeed = Constants.SKIER_STARTING_SPEED;
     }
 
     appear(skierPosition) {
