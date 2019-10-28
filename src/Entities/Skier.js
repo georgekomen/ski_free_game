@@ -6,19 +6,10 @@ import { MovableEntity } from "./MovableEntity";
 export class Skier extends MovableEntity {
     constructor(x, y) {
         super(x, y);
-    }
 
-    setDirection(direction) {
-        this.direction = direction;
-        this.updateAsset(this.direction);
-    }
-
-    updateAsset(assetId) {
-        if (this.isJumping()) {
-            this.assetName = Constants.SKIER_JUMPING_POSTURE_ASSET[assetId];
-        } else {
-            this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
-        }
+        this.assetName = Constants.SKIER_DOWN;
+        this.direction = Constants.SKIER_DIRECTIONS.DOWN;
+        this.speed = Constants.SKIER_STARTING_SPEED;
     }
 
     move() {

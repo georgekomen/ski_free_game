@@ -2,9 +2,9 @@ import * as Constants from "../Constants";
 import { Entity } from "./Entity";
 
 export class MovableEntity extends Entity {
-    assetName = Constants.SKIER_DOWN;
-    direction = Constants.SKIER_DIRECTIONS.DOWN;
-    speed = Constants.SKIER_STARTING_SPEED;
+    assetName = '';
+    direction = '';
+    speed = 0;
 
     constructor(x, y) {
         super(x, y);
@@ -34,5 +34,18 @@ export class MovableEntity extends Entity {
 
     moveSkierUp() {
         this.y -= Constants.SKIER_STARTING_SPEED;
+    }
+
+    setDirection(direction) {
+        this.direction = direction;
+        this.updateAsset(this.direction);
+    }
+
+    updateAsset(assetId) {
+        if (this.isJumping()) {
+            this.assetName = Constants.SKIER_JUMPING_POSTURE_ASSET[assetId];
+        } else {
+            this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
+        }
     }
 }
