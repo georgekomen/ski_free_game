@@ -4,7 +4,7 @@ import { Canvas } from './Canvas';
 import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
-import { Yeti } from "../Entities/Rhino";
+import { Rhino } from "../Entities/Rhino";
 
 export class Game {
     gameWindow = null;
@@ -13,10 +13,12 @@ export class Game {
         this.assetManager = new AssetManager();
         this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
         this.skier = new Skier(0, 0);
-        this.yeti = new Yeti(1, 1);
+        this.rhino = new Rhino();
         this.obstacleManager = new ObstacleManager();
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
+
+        this.scheduleRhino();
     }
 
     init() {
@@ -36,8 +38,15 @@ export class Game {
         requestAnimationFrame(this.run.bind(this));
     }
 
+    scheduleRhino() {
+        setTimeout(() => {
+            this.rhino.appear(this.skier.getPosition());
+        }, 1000);
+    }
+
     updateGameWindow() {
-        this.skier.move();
+        // this.skier.move();
+        // this.rhino.move(this.skier.getPosition());
 
         const previousGameWindow = this.gameWindow;
         this.calculateGameWindow();
@@ -50,7 +59,7 @@ export class Game {
     drawGameWindow() {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
 
-        this.yeti.draw(this.canvas, this.assetManager);
+        this.rhino.draw(this.canvas, this.assetManager);
         this.skier.draw(this.canvas, this.assetManager);
         this.obstacleManager.drawObstacles(this.canvas, this.assetManager);
     }

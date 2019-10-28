@@ -66,8 +66,7 @@ export const DIRECTIONS = {
     LEFT_DOWN : 2,
     DOWN : 3,
     RIGHT_DOWN : 4,
-    RIGHT : 5,
-    JUMP1: 6
+    RIGHT : 5
 };
 
 export const SKIER_JUMPING = {
