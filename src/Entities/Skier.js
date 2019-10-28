@@ -144,7 +144,7 @@ export class Skier extends Entity {
 
         const jumpingAnimationInterval = setInterval(() => {
             this.jumpingAnimations();
-        }, Constants.SKIER_JUMP_TIME / 5);
+        }, (Constants.SKIER_JUMP_TIME / 5));
 
         setTimeout(() => {
             this.speed = Constants.SKIER_STARTING_SPEED;

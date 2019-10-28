@@ -5,6 +5,7 @@ import * as Constants from "../Constants";
 describe('skier turn behaviour', () => {
     const skier = new Skier(5, 5);
     let setDirection;
+    jest.useFakeTimers();
 
     test('class should initialize', () => {
         expect(skier).toBeTruthy();
@@ -162,6 +163,23 @@ describe('skier turn behaviour', () => {
             skier.checkIfShouldJumpOrCrashAfterCollision(Constants.TREE);
 
             expect(jump).not.toHaveBeenCalled();
+        });
+
+        test('skier should be animated while jumping', () => {
+            const jumpingAnimations = jest.spyOn(skier, 'jumpingAnimations');
+            const updateAsset = jest.spyOn(skier, 'updateAsset');
+
+            skier.speed = Constants.SKIER_JUMPING_SPEED;
+            skier.jump();
+            jest.advanceTimersByTime(Constants.SKIER_JUMP_TIME);
+
+            expect(setInterval).toHaveBeenCalledTimes(1);
+            expect(setInterval).toHaveBeenCalledWith(expect.any(Function), (Constants.SKIER_JUMP_TIME / 5));
+            expect(updateAsset).toHaveBeenNthCalledWith(1, Constants.SKIER_JUMPING_POSTURE.JUMP1);
+            expect(updateAsset).toHaveBeenNthCalledWith(2, Constants.SKIER_JUMPING_POSTURE.JUMP2);
+            expect(updateAsset).toHaveBeenNthCalledWith(3, Constants.SKIER_JUMPING_POSTURE.JUMP3);
+            expect(updateAsset).toHaveBeenNthCalledWith(4, Constants.SKIER_JUMPING_POSTURE.JUMP4);
+            expect(updateAsset).toHaveBeenNthCalledWith(5, Constants.SKIER_JUMPING_POSTURE.JUMP5);
         });
     });
 });
