@@ -95,9 +95,9 @@ We are looking forward to see what you come up with!
 
 
 **GEORGE KOMEN PROGRESS**
-1.) Crash bug fixed (*Actually two bugs, turning left or right after a crash*)
+1.) Crash bug fixed (*Actually two bugs, turning left or right after a crash*).
 
-    Bug Description : Turning skier left after crashing into a rock or a tree caused the whole game to crash and end
+    Bug Description : Turning skier left after crashing into a rock or a tree caused the whole game to crash and end.
 
     Root cause : - Calling the function below when the skier has crashed means `this.direction` is
                    `Constants.SKIER_DIRECTIONS.CRASH` and therefore the else block will be executed.
@@ -105,7 +105,7 @@ We are looking forward to see what you come up with!
                  - From `Constants.SKIER_DIRECTIONS` enum, `CRASH` has the value number `0` and therefore executing the
                    line `this.setDirection(this.direction - 1)` tries to look for an asset from `Constants.SKIER_DIRECTION_ASSET`
                    map with key `-1` which does not exist e.g. `Constants.SKIER_DIRECTION_ASSET[-1]` then causes the error:
-                   `cannot read property 'width' of undefined`, asset is undefined
+                   `cannot read property 'width' of undefined`, asset is undefined.
     ```
         turnLeft() {
             if(this.direction === Constants.SKIER_DIRECTIONS.LEFT) {
@@ -117,7 +117,13 @@ We are looking forward to see what you come up with!
         } 
     ```
 2.) Wrote unit tests to make sure the following conditions are satisfied by the new function:
-          - skier should move left down if turned left while moving down
-          - skier should move left if turned left while moving left down
-          - skier should wake up facing left and move if turned left when crashed
-    * Same conditions apply when turning skier right after a crash
+          - skier should move left down if turned left while moving down.
+          - skier should move left if turned left while moving left down.
+          - skier should wake up facing left and move if turned left when crashed.
+    * Same conditions apply when turning skier right after a crash.
+
+3.) Added jumping feature under the following conditions:
+          - skier should always automatically jump over jumping rumps.
+          - skier can jump over rocks by pressing `SHIFT KEY` just before colliding with the rock.
+          - skier can never jump over tress even by pressing `SHIFT KEY`.
+     * Unit tests to assert this conditions included
