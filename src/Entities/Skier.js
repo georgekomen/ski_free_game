@@ -142,13 +142,31 @@ export class Skier extends Entity {
         this.speed = Constants.SKIER_JUMPING_SPEED;
         this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP1);
 
+        const jumpingAnimationInterval = setInterval(() => {
+            this.jumpingAnimations();
+        }, Constants.SKIER_JUMP_TIME / 5);
+
         setTimeout(() => {
             this.speed = Constants.SKIER_STARTING_SPEED;
             this.updateAsset(this.direction);
+            clearInterval(jumpingAnimationInterval);
         }, Constants.SKIER_JUMP_TIME);
     }
 
-    jumpingAnimation() {
-
+    jumpingAnimations() {
+        switch(this.assetName) {
+            case Constants.SKIER_JUMP1:
+                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP2);
+                break;
+            case Constants.SKIER_JUMP2:
+                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP3);
+                break;
+            case Constants.SKIER_JUMP3:
+                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP4);
+                break;
+            case Constants.SKIER_JUMP4:
+                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP5);
+                break;
+        }
     }
 }
