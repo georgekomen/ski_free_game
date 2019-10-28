@@ -1,13 +1,9 @@
 import * as Constants from "../Constants";
 import { Entity } from "./Entity";
 import { intersectTwoRects, Rect } from "../Core/Utils";
+import { MovableEntity } from "./MovableEntity";
 
-export class Skier extends Entity {
-    assetName = Constants.SKIER_DOWN;
-
-    direction = Constants.SKIER_DIRECTIONS.DOWN;
-    speed = Constants.SKIER_STARTING_SPEED;
-
+export class Skier extends MovableEntity {
     constructor(x, y) {
         super(x, y);
     }
@@ -37,32 +33,6 @@ export class Skier extends Entity {
                 this.moveSkierRightDown();
                 break;
         }
-    }
-
-    moveSkierLeft() {
-        this.x -= Constants.SKIER_STARTING_SPEED;
-    }
-
-    moveSkierLeftDown() {
-        this.x -= this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
-        this.y += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
-    }
-
-    moveSkierDown() {
-        this.y += this.speed;
-    }
-
-    moveSkierRightDown() {
-        this.x += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
-        this.y += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
-    }
-
-    moveSkierRight() {
-        this.x += Constants.SKIER_STARTING_SPEED;
-    }
-
-    moveSkierUp() {
-        this.y -= Constants.SKIER_STARTING_SPEED;
     }
 
     turnLeft() {
