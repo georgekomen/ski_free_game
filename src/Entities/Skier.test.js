@@ -166,7 +166,6 @@ describe('skier turn behaviour', () => {
         });
 
         test('skier should be animated while jumping', () => {
-            const jumpingAnimations = jest.spyOn(skier, 'jumpingAnimations');
             const updateAsset = jest.spyOn(skier, 'updateAsset');
 
             skier.speed = Constants.SKIER_JUMPING_SPEED;
