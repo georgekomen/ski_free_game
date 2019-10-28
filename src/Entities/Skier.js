@@ -1,5 +1,4 @@
 import * as Constants from "../Constants";
-import { Entity } from "./Entity";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 import { MovableEntity } from "./MovableEntity";
 
@@ -8,50 +7,50 @@ export class Skier extends MovableEntity {
         super(x, y);
 
         this.assetName = Constants.SKIER_DOWN;
-        this.direction = Constants.SKIER_DIRECTIONS.DOWN;
+        this.direction = Constants.DIRECTIONS.DOWN;
         this.speed = Constants.SKIER_STARTING_SPEED;
     }
 
     move() {
         switch(this.direction) {
-            case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
+            case Constants.DIRECTIONS.LEFT_DOWN:
                 this.moveLeftDown();
                 break;
-            case Constants.SKIER_DIRECTIONS.DOWN:
+            case Constants.DIRECTIONS.DOWN:
                 this.moveDown();
                 break;
-            case Constants.SKIER_DIRECTIONS.RIGHT_DOWN:
+            case Constants.DIRECTIONS.RIGHT_DOWN:
                 this.moveRightDown();
                 break;
         }
     }
 
     turnLeft() {
-        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
-            this.setDirection(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
+        if(this.direction == Constants.DIRECTIONS.DOWN){
+            this.setDirection(Constants.DIRECTIONS.LEFT_DOWN);
         } else {
-            this.setDirection(Constants.SKIER_DIRECTIONS.LEFT);
+            this.setDirection(Constants.DIRECTIONS.LEFT);
             this.moveLeft();
         }
     }
 
     turnRight() {
-        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
-            this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
+        if(this.direction == Constants.DIRECTIONS.DOWN){
+            this.setDirection(Constants.DIRECTIONS.RIGHT_DOWN);
         } else {
-            this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT);
+            this.setDirection(Constants.DIRECTIONS.RIGHT);
             this.moveRight();
         }
     }
 
     turnUp() {
-        if(this.direction === Constants.SKIER_DIRECTIONS.LEFT || this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
+        if(this.direction === Constants.DIRECTIONS.LEFT || this.direction === Constants.DIRECTIONS.RIGHT) {
             this.moveUp();
         }
     }
 
     turnDown() {
-        this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        this.setDirection(Constants.DIRECTIONS.DOWN);
     }
 
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
@@ -87,7 +86,7 @@ export class Skier extends MovableEntity {
         if (obstacleName === Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
             this.jump();
         } else {
-            this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
+            this.setDirection(Constants.DIRECTIONS.CRASH);
         }
     }
 

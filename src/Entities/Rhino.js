@@ -1,5 +1,4 @@
 import * as Constants from "../Constants";
-import { Entity } from "./Entity";
 import { MovableEntity } from "./MovableEntity";
 
 export class Yeti extends MovableEntity {
@@ -7,7 +6,7 @@ export class Yeti extends MovableEntity {
         super(x, y);
 
         this.assetName = Constants.RHINO;
-        this.direction = Constants.SKIER_DIRECTIONS.DOWN;
+        this.direction = Constants.DIRECTIONS.DOWN;
         this.speed = Constants.SKIER_STARTING_SPEED;
     }
 }
