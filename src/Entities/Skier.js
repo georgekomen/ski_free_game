@@ -15,13 +15,13 @@ export class Skier extends MovableEntity {
     move() {
         switch(this.direction) {
             case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
-                this.moveSkierLeftDown();
+                this.moveLeftDown();
                 break;
             case Constants.SKIER_DIRECTIONS.DOWN:
-                this.moveSkierDown();
+                this.moveDown();
                 break;
             case Constants.SKIER_DIRECTIONS.RIGHT_DOWN:
-                this.moveSkierRightDown();
+                this.moveRightDown();
                 break;
         }
     }
@@ -31,7 +31,7 @@ export class Skier extends MovableEntity {
             this.setDirection(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.LEFT);
-            this.moveSkierLeft();
+            this.moveLeft();
         }
     }
 
@@ -40,13 +40,13 @@ export class Skier extends MovableEntity {
             this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT);
-            this.moveSkierRight();
+            this.moveRight();
         }
     }
 
     turnUp() {
         if(this.direction === Constants.SKIER_DIRECTIONS.LEFT || this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
-            this.moveSkierUp();
+            this.moveUp();
         }
     }
 

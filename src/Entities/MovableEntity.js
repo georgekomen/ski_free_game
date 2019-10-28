@@ -10,29 +10,29 @@ export class MovableEntity extends Entity {
         super(x, y);
     }
 
-    moveSkierLeft() {
+    moveLeft() {
         this.x -= Constants.SKIER_STARTING_SPEED;
     }
 
-    moveSkierLeftDown() {
+    moveLeftDown() {
         this.x -= this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
         this.y += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
     }
 
-    moveSkierDown() {
+    moveDown() {
         this.y += this.speed;
     }
 
-    moveSkierRightDown() {
+    moveRightDown() {
         this.x += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
         this.y += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
     }
 
-    moveSkierRight() {
+    moveRight() {
         this.x += Constants.SKIER_STARTING_SPEED;
     }
 
-    moveSkierUp() {
+    moveUp() {
         this.y -= Constants.SKIER_STARTING_SPEED;
     }
 

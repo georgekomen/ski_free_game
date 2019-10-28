@@ -16,11 +16,11 @@ describe('skier turn behaviour', () => {
     });
 
     describe('skier behavior when turned left', () => {
-        let moveSkierLeft;
+        let moveLeft;
 
         beforeEach(() => {
             setDirection = jest.spyOn(skier, 'setDirection');
-            moveSkierLeft = jest.spyOn(skier, 'moveSkierLeft');
+            moveLeft = jest.spyOn(skier, 'moveLeft');
         });
 
         test('should move left down if turned left while moving down', () => {
@@ -28,7 +28,7 @@ describe('skier turn behaviour', () => {
 
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
-            expect(moveSkierLeft).not.toHaveBeenCalled();
+            expect(moveLeft).not.toHaveBeenCalled();
         });
 
         test('should move left if turned left while moving left down', () => {
@@ -38,7 +38,7 @@ describe('skier turn behaviour', () => {
 
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.LEFT);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.LEFT);
-            expect(moveSkierLeft).toHaveBeenCalled();
+            expect(moveLeft).toHaveBeenCalled();
         });
 
         test('should wake up facing left and move if turned left when crashed', () => {
@@ -52,17 +52,17 @@ describe('skier turn behaviour', () => {
 
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.LEFT);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.LEFT);
-            expect(moveSkierLeft).toHaveBeenCalled();
+            expect(moveLeft).toHaveBeenCalled();
         });
     });
 
 
     describe('skier behavior when turned right', () => {
-        let moveSkierRight;
+        let moveRight;
 
         beforeEach(() => {
             setDirection = jest.spyOn(skier, 'setDirection');
-            moveSkierRight = jest.spyOn(skier, 'moveSkierRight');
+            moveRight = jest.spyOn(skier, 'moveRight');
         });
 
         test('should move right down if turned right while moving down', () => {
@@ -72,7 +72,7 @@ describe('skier turn behaviour', () => {
 
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
-            expect(moveSkierRight).not.toHaveBeenCalled();
+            expect(moveRight).not.toHaveBeenCalled();
         });
 
         test('should move right if turned right while moving right down', () => {
@@ -82,7 +82,7 @@ describe('skier turn behaviour', () => {
 
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.RIGHT);
-            expect(moveSkierRight).toHaveBeenCalled();
+            expect(moveRight).toHaveBeenCalled();
         });
 
         test('should wake up facing right and move if turned right when crashed', () => {
@@ -95,7 +95,7 @@ describe('skier turn behaviour', () => {
             expect(skier.assetName).toBe(Constants.SKIER_RIGHT);
             expect(setDirection).toHaveBeenCalledWith(Constants.SKIER_DIRECTIONS.RIGHT);
             expect(skier.direction).toBe(Constants.SKIER_DIRECTIONS.RIGHT);
-            expect(moveSkierRight).toHaveBeenCalled();
+            expect(moveRight).toHaveBeenCalled();
         });
     });
 
