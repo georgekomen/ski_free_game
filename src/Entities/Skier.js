@@ -3,12 +3,22 @@ import { intersectTwoRects, Rect } from "../Core/Utils";
 import { MovableEntity } from "./MovableEntity";
 
 export class Skier extends MovableEntity {
+
     constructor(x, y) {
         super(x, y);
 
         this.assetName = Constants.SKIER_DOWN;
         this.direction = Constants.DIRECTIONS.DOWN;
         this.speed = Constants.SKIER_STARTING_SPEED;
+        this.startingSpeed = Constants.SKIER_STARTING_SPEED;
+    }
+
+    updateAsset(assetId) {
+        if (this.isJumping()) {
+            this.assetName = Constants.SKIER_JUMPING_ASSET[assetId];
+        } else {
+            this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
+        }
     }
 
     move() {
@@ -100,14 +110,14 @@ export class Skier extends MovableEntity {
 
     jump() {
         this.speed = Constants.SKIER_JUMPING_SPEED;
-        this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP1);
+        this.updateAsset(Constants.SKIER_JUMPING.JUMP1);
 
         const jumpingAnimationInterval = setInterval(() => {
             this.jumpingAnimations();
         }, (Constants.SKIER_JUMP_TIME / 5));
 
         setTimeout(() => {
-            this.speed = Constants.SKIER_STARTING_SPEED;
+            this.speed = this.startingSpeed;
             this.updateAsset(this.direction);
             clearInterval(jumpingAnimationInterval);
         }, Constants.SKIER_JUMP_TIME);
@@ -116,16 +126,16 @@ export class Skier extends MovableEntity {
     jumpingAnimations() {
         switch(this.assetName) {
             case Constants.SKIER_JUMP1:
-                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP2);
+                this.updateAsset(Constants.SKIER_JUMPING.JUMP2);
                 break;
             case Constants.SKIER_JUMP2:
-                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP3);
+                this.updateAsset(Constants.SKIER_JUMPING.JUMP3);
                 break;
             case Constants.SKIER_JUMP3:
-                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP4);
+                this.updateAsset(Constants.SKIER_JUMPING.JUMP4);
                 break;
             case Constants.SKIER_JUMP4:
-                this.updateAsset(Constants.SKIER_JUMPING_POSTURE.JUMP5);
+                this.updateAsset(Constants.SKIER_JUMPING.JUMP5);
                 break;
         }
     }

@@ -8,5 +8,6 @@ export class Yeti extends MovableEntity {
         this.assetName = Constants.RHINO;
         this.direction = Constants.DIRECTIONS.DOWN;
         this.speed = Constants.SKIER_STARTING_SPEED;
+        this.startingSpeed = Constants.SKIER_STARTING_SPEED;
     }
 }
