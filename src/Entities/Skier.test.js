@@ -40,7 +40,7 @@ describe('skier turn behaviour', () => {
             expect(moveSkierLeft).toHaveBeenCalled();
         });
 
-        test('should wake up facing left and move left if turned left when crashed', () => {
+        test('should wake up facing left and move if turned left when crashed', () => {
             skier.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
 
             expect(skier.assetName).toBe(Constants.SKIER_CRASH);
@@ -84,7 +84,7 @@ describe('skier turn behaviour', () => {
             expect(moveSkierRight).toHaveBeenCalled();
         });
 
-        test('should wake up facing right and move right if turned right when crashed', () => {
+        test('should wake up facing right and move if turned right when crashed', () => {
             skier.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
 
             expect(skier.assetName).toBe(Constants.SKIER_CRASH);
