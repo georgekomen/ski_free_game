@@ -94,12 +94,13 @@ We are looking forward to see what you come up with!
 
 
 
-**GEORGE KOMEN PROGRESS**
+***GEORGE KOMEN PROGRESS***
 1.) Crash bug fixed (*Actually two bugs, turning left or right after a crash*).
 
 Bug Description : Turning skier left after crashing into a rock or a tree caused the whole game to crash and end.
 
-Root cause : - Calling the function below when the skier has crashed means `this.direction` is `Constants.SKIER_DIRECTIONS.CRASH`
+**Root cause:**
+- Calling the function below when the skier has crashed means `this.direction` is `Constants.SKIER_DIRECTIONS.CRASH`
  and therefore the else block will be executed.
 
 - From `Constants.SKIER_DIRECTIONS` enum, `CRASH` has the value number `0` and therefore executing the line 
@@ -116,12 +117,14 @@ turnLeft() {
     }
 }
 ```
+**game crash unit tests**
 2.) Wrote unit tests to make sure the following conditions are satisfied by the new function:
 - skier should move left down if turned left while moving down.
 - skier should move left if turned left while moving left down.
 - skier should wake up facing left and move if turned left when crashed.
 * Same conditions apply when turning skier right after a crash.
 
+**Jumping feature**
 3.) Added jumping feature under the following conditions:
 - skier should always automatically jump over jumping rumps.
 - skier can jump over rocks by pressing `SHIFT KEY` just before colliding with the rock.
@@ -133,6 +136,7 @@ continues to move in the original direction only with an increased speed and a d
 To end the jumping, we subscribe to a setTimeOut event that executes after our desired time of making the skier jump and in the 
 event callback we change skier's asset to match the direction he is currently heading to and set his speed to the normal starting speed.
 
+**jumping animations**
 5.) Animated skier jumping
 To do so, I've added a function that changes skier's asset from one jumping asset to the next depending on the previous asset everytime it is called
 To define the interval the asset should change, we've subscribed to a setInterval event that is called at an interval of (`time taken to jump / number of jumping assets`).
