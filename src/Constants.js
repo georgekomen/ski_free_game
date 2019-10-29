@@ -29,7 +29,7 @@ export const RHINO_RUN_RIGHT = 'rhinoRunRight';
 
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_JUMPING_SPEED = 15;
-export const DIAGONAL_SPEED_REDUCER = 1.4142;
+export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
 export const SKIER_JUMP_TIME = 500;
 export const TIME_TO_WAKE_UP_RHINO = (10 * 1000);
 export const RHINO_SPEED = 8;

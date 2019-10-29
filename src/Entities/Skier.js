@@ -19,12 +19,13 @@ export class Skier extends Entity {
         this.updateAsset(direction);
     }
 
-    updateAsset(assetId) {
-        if (this.isJumping()) {
-            this.assetName = Constants.SKIER_JUMPING_ASSET[assetId];
-        } else {
-            this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
-        }
+    eated() {
+        this.isAlive = false;
+    }
+
+    ressurect() {
+        this.isAlive = true;
+        this.moveSkierDown();
     }
 
     draw(canvas, assetManager) {
@@ -34,13 +35,12 @@ export class Skier extends Entity {
         super.draw(canvas, assetManager)
     }
 
-    ressurect() {
-        this.isAlive = true;
-        this.moveSkierDown();
-    }
-
-    eated() {
-        this.isAlive = false;
+    updateAsset(assetId) {
+        if (this.isJumping()) {
+            this.assetName = Constants.SKIER_JUMPING_ASSET[assetId];
+        } else {
+            this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
+        }
     }
 
     move() {
@@ -65,8 +65,8 @@ export class Skier extends Entity {
     }
 
     moveSkierLeftDown() {
-        this.x -= this.speed / Constants.DIAGONAL_SPEED_REDUCER;
-        this.y += this.speed / Constants.DIAGONAL_SPEED_REDUCER;
+        this.x -= this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
+        this.y += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
     }
 
     moveSkierDown() {
@@ -74,8 +74,8 @@ export class Skier extends Entity {
     }
 
     moveSkierRightDown() {
-        this.x += this.speed / Constants.DIAGONAL_SPEED_REDUCER;
-        this.y += this.speed / Constants.DIAGONAL_SPEED_REDUCER;
+        this.x += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
+        this.y += this.speed / Constants.SKIER_DIAGONAL_SPEED_REDUCER;
     }
 
     moveSkierRight() {
