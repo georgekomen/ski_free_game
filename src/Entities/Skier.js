@@ -8,6 +8,7 @@ export class Skier extends Entity {
     assetName = Constants.SKIER_DOWN;
     direction = Constants.SKIER_DIRECTIONS.DOWN;
     speed = Constants.SKIER_STARTING_SPEED;
+    isAlive = true;
 
     constructor(x, y) {
         super(x, y);
@@ -26,7 +27,21 @@ export class Skier extends Entity {
         }
     }
 
+    draw(canvas, assetManager) {
+        if(!this.isAlive) {
+            return;
+        }
+        super.draw(canvas, assetManager)
+    }
+
+    eated() {
+        this.isAlive = false;
+    }
+
     move() {
+        if(!this.isAlive) {
+            return;
+        }
         switch(this.direction) {
             case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
                 this.moveSkierLeftDown();

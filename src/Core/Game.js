@@ -13,9 +13,11 @@ export class Game {
         this.assetManager = new AssetManager();
         this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
         this.skier = new Skier(0, 0);
-        this.rhino = new Rhino(200, 200);
+        this.rhino = new Rhino(0, 0);
         this.obstacleManager = new ObstacleManager();
         this.gameEnded = false;
+
+        this.scheduleRhino();
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
@@ -39,18 +41,20 @@ export class Game {
 
     scheduleRhino() {
         setTimeout(() => {
-            this.rhino.appear(this.skier.getPosition());
-        }, 1000);
+            this.rhino.wakeUp(this.skier.getPosition());
+        }, Constants.TIME_TO_WAKE_UP_RHINO);
     }
 
     updateGameWindow() {
-        const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
-        if (skierCaught) {
-            this.endGame();
-            return;
+        if (this.rhino.isAwake) {
+            const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
+            if (skierCaught) {
+                this.endGame();
+                return;
+            }
+            this.rhino.moveTowardsSkier(this.skier.getPosition()); 
         }
 
-        this.rhino.moveTowardsSkier(this.skier.getPosition());
         this.skier.move();
 
         const previousGameWindow = this.gameWindow;
@@ -63,6 +67,7 @@ export class Game {
 
     endGame() {
         if(!this.gameEnded) {
+            this.skier.eated();
             this.rhino.eatSkier();
             this.gameEnded = true;
         }
@@ -70,12 +75,8 @@ export class Game {
 
     drawGameWindow() {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
-
         this.rhino.draw(this.canvas, this.assetManager);
-
-        if(!this.gameEnded) {
-            this.skier.draw(this.canvas, this.assetManager);
-        }
+        this.skier.draw(this.canvas, this.assetManager);
         this.obstacleManager.drawObstacles(this.canvas, this.assetManager);
     }
 
@@ -88,6 +89,9 @@ export class Game {
     }
 
     handleKeyDown(event) {
+        if(!this.skier.isAlive) {
+            return;
+        }
         switch(event.which) {
             case Constants.KEYS.LEFT:
                 this.skier.turnLeft();

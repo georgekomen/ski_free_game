@@ -1,5 +1,5 @@
 import * as Constants from "../Constants";
-import { intersectTwoRects, Rect, getSlope } from "../Core/Utils";
+import { intersectTwoRects, Rect, getSlope, randomInt } from "../Core/Utils";
 import { Entity } from "./Entity";
 import { from, interval } from "rxjs";
 import { takeWhile} from "rxjs/operators";
@@ -7,9 +7,23 @@ import { takeWhile} from "rxjs/operators";
 export class Rhino extends Entity {
     assetName = Constants.RHINO;
     speed = Constants.RHINO_SPEED;
+    isAwake = false;
 
     constructor(x, y) {
         super(x, y);
+    }
+
+    wakeUp(skierPosition) {
+        this.isAwake = true;
+        this.x = (Math.random() * randomInt(-100, 100));
+        this.y = (skierPosition.y - 1000);
+    }
+
+    draw(canvas, assetManager) {
+        if(!this.isAwake) {
+            return;
+        }
+        super.draw(canvas, assetManager)
     }
 
     moveTowardsSkier(skierPosition) {
@@ -21,10 +35,10 @@ export class Rhino extends Entity {
         }
 
         if (this.x > skierPosition.x) {
-            this.updateAsset(Constants.RHINO_RUN.RHINO_RUN_RIGHT);
+            this.updateRunningAsset(Constants.RHINO_RUN.RHINO_RUN_RIGHT);
             this.x -= (this.speed / (slope * -1));
         } else {
-            this.updateAsset(Constants.RHINO_RUN.RHINO_RUN_LEFT);
+            this.updateRunningAsset(Constants.RHINO_RUN.RHINO_RUN_LEFT);
             this.x += (this.speed / slope);
         }
     }
@@ -47,17 +61,17 @@ export class Rhino extends Entity {
         return intersectTwoRects(rhinoBounds, skierBounds);
     }
 
-    updateAsset(assetId) {
+    eatSkier() {
+            interval(100)
+            .pipe(takeWhile(val => val !== Constants.RHINO_EAT.EAT4, Constants.RHINO_EAT.EAT4))
+            .subscribe(assetId => this.updateEatingAsset(assetId));
+    }
+
+    updateRunningAsset(assetId) {
         this.assetName = Constants.RHINO_RUN_ASSET[assetId];
     }
 
     updateEatingAsset(assetId) {
         this.assetName = Constants.RHINO_EAT_ASSET[assetId];
-    }
-
-    eatSkier() {
-            interval(100)
-            .pipe(takeWhile(val => val !== Constants.RHINO_EAT.EAT4, Constants.RHINO_EAT.EAT4))
-            .subscribe(assetId => this.updateEatingAsset(assetId));
     }
 }
