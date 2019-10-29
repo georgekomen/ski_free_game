@@ -59,21 +59,25 @@ export class Game {
     }
 
     updateGameWindow() {
+        this.rhinoSkierGame();
+
+        const previousGameWindow = this.gameWindow;
+
+        this.calculateGameWindow();
+
+        this.obstacleManager.placeNewObstacle(this.gameWindow, previousGameWindow);
+
+        this.skier.checkIfSkierHitObstacle(this.obstacleManager, this.assetManager);
+    }
+
+    rhinoSkierGame() {
         const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
         if (skierCaught) {
             this.endGame();
             return;
         }
         this.rhino.moveTowardsSkier(this.skier.getPosition());
-
         this.skier.move();
-
-        const previousGameWindow = this.gameWindow;
-        this.calculateGameWindow();
-
-        this.obstacleManager.placeNewObstacle(this.gameWindow, previousGameWindow);
-
-        this.skier.checkIfSkierHitObstacle(this.obstacleManager, this.assetManager);
     }
 
     endGame() {
