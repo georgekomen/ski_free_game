@@ -1,7 +1,7 @@
 import * as Constants from "../Constants";
 import { intersectTwoRects, Rect, getSlope, randomInt } from "../Core/Utils";
 import { Entity } from "./Entity";
-import { from, interval } from "rxjs";
+import { interval } from "rxjs";
 import { takeWhile} from "rxjs/operators";
 
 export class Rhino extends Entity {
@@ -13,10 +13,16 @@ export class Rhino extends Entity {
         super(x, y);
     }
 
-    wakeUp(skierPosition) {
+    appear(skierPosition) {
         this.isAwake = true;
         this.x = (Math.random() * randomInt(-100, 100));
-        this.y = (skierPosition.y - 1000);
+        this.y = (skierPosition.y - 500);
+    }
+
+    hide() {
+        this.x = 0;
+        this.y = 0;
+        this.isAwake = false;
     }
 
     draw(canvas, assetManager) {

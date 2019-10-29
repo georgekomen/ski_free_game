@@ -1,8 +1,8 @@
 import * as Constants from "../Constants";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 import { Entity } from "./Entity";
-import { from, interval } from "rxjs";
-import { delay,takeWhile } from "rxjs/operators";
+import { interval } from "rxjs";
+import { takeWhile } from "rxjs/operators";
 
 export class Skier extends Entity {
     assetName = Constants.SKIER_DOWN;
@@ -32,6 +32,11 @@ export class Skier extends Entity {
             return;
         }
         super.draw(canvas, assetManager)
+    }
+
+    ressurect() {
+        this.isAlive = true;
+        this.moveSkierDown();
     }
 
     eated() {

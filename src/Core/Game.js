@@ -17,7 +17,7 @@ export class Game {
         this.obstacleManager = new ObstacleManager();
         this.gameEnded = false;
 
-        this.scheduleRhino();
+        this.wakeUpRhinoSchedule = this.scheduleToWakeUpRhino();
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
@@ -39,9 +39,20 @@ export class Game {
         requestAnimationFrame(this.run.bind(this));
     }
 
-    scheduleRhino() {
+    restartGame() {
+        if(!this.gameEnded) {
+            return;
+        }
+        this.gameEnded = false;
+        this.skier.ressurect();
+        this.rhino.hide();
+        clearTimeout(this.wakeUpRhinoSchedule);
+        this.wakeUpRhinoSchedule = this.scheduleToWakeUpRhino();
+    }
+
+    scheduleToWakeUpRhino() {
         setTimeout(() => {
-            this.rhino.wakeUp(this.skier.getPosition());
+            this.rhino.appear(this.skier.getPosition());
         }, Constants.TIME_TO_WAKE_UP_RHINO);
     }
 
@@ -89,9 +100,13 @@ export class Game {
     }
 
     handleKeyDown(event) {
-        if(!this.skier.isAlive) {
+        if(event.which === Constants.KEYS.SPACE && this.gameEnded) {
+            this.restartGame();
+        } else if(this.gameEnded) {
+            console.log('Error... ', 'Game ended, press space bar to start again');
             return;
         }
+
         switch(event.which) {
             case Constants.KEYS.LEFT:
                 this.skier.turnLeft();
