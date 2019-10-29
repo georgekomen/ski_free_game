@@ -22,7 +22,7 @@ export const RHINO_EAT1 = 'rhinoEat1';
 export const RHINO_EAT2 = 'rhinoEat2';
 export const RHINO_EAT3 = 'rhinoEat3';
 export const RHINO_EAT4 = 'rhinoEat4';
-export const RHINO_OPEN_MOUNT = 'rhinoOpenMouth';
+export const RHINO_OPEN_MOUTH = 'rhinoOpenMouth';
 export const RHINO_LIFT = 'rhinoLift';
 export const RHINO_RUN_LEFT = 'rhinoRunLeft';
 export const RHINO_RUN_RIGHT = 'rhinoRunRight';
@@ -31,7 +31,7 @@ export const SKIER_STARTING_SPEED = 10;
 export const SKIER_JUMPING_SPEED = 15;
 export const DIAGONAL_SPEED_REDUCER = 1.4142;
 export const SKIER_JUMP_TIME = 500;
-export const RHINO_SPEED = 10;
+export const RHINO_SPEED = 8;
 
 export const ASSETS = {
     [SKIER_CRASH]: 'img/skier_crash.png',
@@ -51,15 +51,44 @@ export const ASSETS = {
     [ROCK2] : 'img/rock_2.png',
     [JUMP_RUMP] : 'img/jump_ramp.png',
     [RHINO] : 'img/rhino_default.png',
+    [RHINO_OPEN_MOUTH] : 'img/rhino_lift_mouth_open.png',
+    [RHINO_LIFT] : 'img/rhino_lift.png',
     [RHINO_EAT1] : 'img/rhino_lift_eat_1.png',
     [RHINO_EAT2] : 'img/rhino_lift_eat_2.png',
     [RHINO_EAT3] : 'img/rhino_lift_eat_3.png',
     [RHINO_EAT4] : 'img/rhino_lift_eat_4.png',
-    [RHINO_OPEN_MOUNT] : 'img/rhino_lift_mouth_open.png',
-    [RHINO_LIFT] : 'img/rhino_lift.png',
     [RHINO_RUN_LEFT] : 'img/rhino_run_left.png',
     [RHINO_RUN_RIGHT] : 'img/rhino_run_right.png'
 };
+
+
+export const RHINO_RUN = {
+    RHINO_RUN_LEFT : 0,
+    RHINO_RUN_RIGHT : 1
+}
+
+export const RHINO_RUN_ASSET = {
+    [RHINO_RUN.RHINO_RUN_LEFT] : RHINO_RUN_LEFT,
+    [RHINO_RUN.RHINO_RUN_RIGHT] : RHINO_RUN_RIGHT
+}
+
+export const RHINO_EAT = {
+    OPEN_MOUTH : 0,
+    LIFT : 1,
+    EAT1: 2,
+    EAT2: 3,
+    EAT3 : 4,
+    EAT4 : 5
+}
+
+export const RHINO_EAT_ASSET = {
+    [RHINO_EAT.OPEN_MOUTH] : RHINO_OPEN_MOUTH,
+    [RHINO_EAT.LIFT] : RHINO_LIFT,
+    [RHINO_EAT.EAT1] : RHINO_EAT1,
+    [RHINO_EAT.EAT2] : RHINO_EAT2,
+    [RHINO_EAT.EAT3] : RHINO_EAT3,
+    [RHINO_EAT.EAT4] : RHINO_EAT4,
+}
 
 export const SKIER_DIRECTIONS = {
     CRASH : 0,
@@ -76,7 +105,7 @@ export const SKIER_JUMPING = {
     JUMP3 : 2,
     JUMP4 : 3,
     JUMP5 : 4
-}
+};
 
 export const SKIER_JUMPING_ASSET = {
     [SKIER_JUMPING.JUMP1] : SKIER_JUMP1,
@@ -84,7 +113,7 @@ export const SKIER_JUMPING_ASSET = {
     [SKIER_JUMPING.JUMP3] : SKIER_JUMP3,
     [SKIER_JUMPING.JUMP4] : SKIER_JUMP4,
     [SKIER_JUMPING.JUMP5] : SKIER_JUMP5
-}
+};
 
 export const SKIER_DIRECTION_ASSET = {
     [SKIER_DIRECTIONS.CRASH] : SKIER_CRASH,

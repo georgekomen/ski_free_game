@@ -108,16 +108,6 @@ describe('skier turn behaviour', () => {
             skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
         });
 
-        test('skier should increase speed and be on jumping asset when jumping', () => {
-            expect(skier.assetName).toBe(Constants.SKIER_DIRECTION_ASSET[Constants.SKIER_DIRECTIONS.DOWN]);
-            expect(skier.speed).toBe(Constants.SKIER_STARTING_SPEED);
-
-            skier.jump();
-
-            expect(skier.speed).toBe(Constants.SKIER_JUMPING_SPEED);
-            expect(skier.assetName).toBe(Constants.SKIER_JUMPING_ASSET[Constants.SKIER_JUMPING.JUMP1]);
-        });
-
         test('skier should always jump over jump rumps', () => {
             skier.checkIfShouldJumpOrCrashAfterCollision(Constants.JUMP_RUMP);
 
@@ -165,20 +155,23 @@ describe('skier turn behaviour', () => {
             expect(jump).not.toHaveBeenCalled();
         });
 
+        test('skier should increase speed when jumping and get animated', () => {
+            const jumpingAnimation = jest.spyOn(skier, 'jumpingAnimation');
+
+            skier.jump();
+
+            expect(skier.speed).toBe(Constants.SKIER_JUMPING_SPEED);
+            expect(jumpingAnimation).toHaveBeenCalled();
+        });
+
         test('skier should be animated while jumping', () => {
             const updateAsset = jest.spyOn(skier, 'updateAsset');
 
             skier.speed = Constants.SKIER_JUMPING_SPEED;
             skier.jump();
-            jest.advanceTimersByTime(Constants.SKIER_JUMP_TIME);
+            jest.advanceTimersByTime(Constants.SKIER_JUMP_TIME + 1000);
 
-            expect(setInterval).toHaveBeenCalledTimes(1);
-            expect(setInterval).toHaveBeenCalledWith(expect.any(Function), (Constants.SKIER_JUMP_TIME / 5));
             expect(updateAsset).toHaveBeenNthCalledWith(1, Constants.SKIER_JUMPING.JUMP1);
-            expect(updateAsset).toHaveBeenNthCalledWith(2, Constants.SKIER_JUMPING.JUMP2);
-            expect(updateAsset).toHaveBeenNthCalledWith(3, Constants.SKIER_JUMPING.JUMP3);
-            expect(updateAsset).toHaveBeenNthCalledWith(4, Constants.SKIER_JUMPING.JUMP4);
-            expect(updateAsset).toHaveBeenNthCalledWith(5, Constants.SKIER_JUMPING.JUMP5);
         });
     });
 });

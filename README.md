@@ -138,6 +138,5 @@ event callback we change skier's asset to match the direction he is currently he
 
 **jumping animations**
 5.) Animated skier jumping
-To do so, I've added a function that changes skier's asset from one jumping asset to the next depending on the previous asset everytime it is called
-To define the interval the asset should change, we've subscribed to a setInterval event that is called at an interval of (`time taken to jump / number of jumping assets`).
+To do so, I've added a function that changes skier's asset from one jumping asset to the next at a set interval. It does so with the help of rxjs interval function that generates numbers from 0 - 5 and streams each individually at an interval of (`time taken to jump / number of jumping assets`).
 This is to make the animation be as smooth and fancy as much as possible. We then call the function that changes skier's asset in the callback

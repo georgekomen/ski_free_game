@@ -1,6 +1,8 @@
 import * as Constants from "../Constants";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 import { Entity } from "./Entity";
+import { from, interval } from "rxjs";
+import { delay,takeWhile } from "rxjs/operators";
 
 export class Skier extends Entity {
     assetName = Constants.SKIER_DOWN;
@@ -139,33 +141,20 @@ export class Skier extends Entity {
 
     jump() {
         this.speed = Constants.SKIER_JUMPING_SPEED;
-        this.updateAsset(Constants.SKIER_JUMPING.JUMP1);
+        this.jumpingAnimation();
+        this.endJump();
+    }
 
-        const jumpingAnimationInterval = setInterval(() => {
-            this.jumpingAnimations();
-        }, (Constants.SKIER_JUMP_TIME / 5));
-
+    endJump() {
         setTimeout(() => {
             this.speed = Constants.SKIER_STARTING_SPEED;
             this.updateAsset(this.direction);
-            clearInterval(jumpingAnimationInterval);
         }, Constants.SKIER_JUMP_TIME);
     }
 
-    jumpingAnimations() {
-        switch(this.assetName) {
-            case Constants.SKIER_JUMP1:
-                this.updateAsset(Constants.SKIER_JUMPING.JUMP2);
-                break;
-            case Constants.SKIER_JUMP2:
-                this.updateAsset(Constants.SKIER_JUMPING.JUMP3);
-                break;
-            case Constants.SKIER_JUMP3:
-                this.updateAsset(Constants.SKIER_JUMPING.JUMP4);
-                break;
-            case Constants.SKIER_JUMP4:
-                this.updateAsset(Constants.SKIER_JUMPING.JUMP5);
-                break;
-        }
+    jumpingAnimation() {
+        interval(Constants.SKIER_JUMP_TIME / 5)
+        .pipe(takeWhile(val => val !== Constants.SKIER_JUMPING.JUMP5, Constants.SKIER_JUMPING.JUMP5))
+        .subscribe(assetId => this.updateAsset(assetId));
     }
 }

@@ -13,12 +13,11 @@ export class Game {
         this.assetManager = new AssetManager();
         this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
         this.skier = new Skier(0, 0);
-        this.rhino = new Rhino();
+        this.rhino = new Rhino(200, 200);
         this.obstacleManager = new ObstacleManager();
+        this.gameEnded = false;
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
-
-        this.scheduleRhino();
     }
 
     init() {
@@ -45,8 +44,14 @@ export class Game {
     }
 
     updateGameWindow() {
+        const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
+        if (skierCaught) {
+            this.endGame();
+            return;
+        }
+
+        this.rhino.moveTowardsSkier(this.skier.getPosition());
         this.skier.move();
-        // this.rhino.move(this.skier.getPosition());
 
         const previousGameWindow = this.gameWindow;
         this.calculateGameWindow();
@@ -56,11 +61,21 @@ export class Game {
         this.skier.checkIfSkierHitObstacle(this.obstacleManager, this.assetManager);
     }
 
+    endGame() {
+        if(!this.gameEnded) {
+            this.rhino.eatSkier();
+            this.gameEnded = true;
+        }
+    }
+
     drawGameWindow() {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
 
         this.rhino.draw(this.canvas, this.assetManager);
-        this.skier.draw(this.canvas, this.assetManager);
+
+        if(!this.gameEnded) {
+            this.skier.draw(this.canvas, this.assetManager);
+        }
         this.obstacleManager.drawObstacles(this.canvas, this.assetManager);
     }
 
