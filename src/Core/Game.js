@@ -71,13 +71,15 @@ export class Game {
     }
 
     rhinoSkierGame() {
+        this.skier.move();
+
         const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
+
         if (skierCaught) {
             this.endGame();
             return;
         }
         this.rhino.moveTowardsSkier(this.skier.getPosition());
-        this.skier.move();
     }
 
     endGame() {
@@ -104,7 +106,7 @@ export class Game {
         if(event.which === Constants.KEYS.SPACE && this.gameEnded()) {
             this.restartGame();
         } else if(this.gameEnded()) {
-            console.log('Error... ', 'Game ended, press space bar to start again');
+            alert('Game ended, press space key to restart game, arrow keys to move skier and shift key to make skier jump');
             return;
         }
 

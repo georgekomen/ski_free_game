@@ -77,7 +77,7 @@ export class Rhino extends Entity {
         if(!skier.isAlive){
             return;
         }
-        interval(100)
+        interval(250)
         .pipe(takeWhile(val => val !== Constants.RHINO_EAT.EAT4, Constants.RHINO_EAT.EAT4))
         .subscribe(assetId => this.updateEatingAsset(assetId));
     }

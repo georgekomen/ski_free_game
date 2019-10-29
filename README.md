@@ -153,9 +153,9 @@ Points to note:
 - Similarly the `isAwake` field of the rhino class helps us determine if it should keep going after the skier and appear on the screen or not.
 
 **eating animation**
-The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 100 milliseconds untill the last one.
+The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 250 milliseconds untill the last one.
 
 **restart game**
 6.) Resart feature
-Once eated by a rhino, the game ends but you can restart by pressing space bar key. The rhino will again appear after some time of skier
+Once eated by a rhino, the game ends but you can restart by pressing `SPACE KEY`. The rhino will again appear after some time of skier
 ressurecting.
