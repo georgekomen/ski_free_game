@@ -15,7 +15,6 @@ export class Game {
         this.skier = new Skier(0, 0);
         this.rhino = new Rhino(0, 0);
         this.obstacleManager = new ObstacleManager();
-        this.gameEnded = false;
 
         this.wakeUpRhinoSchedule = this.scheduleToWakeUpRhino();
 
@@ -40,14 +39,17 @@ export class Game {
     }
 
     restartGame() {
-        if(!this.gameEnded) {
+        if(!this.gameEnded()) {
             return;
         }
-        this.gameEnded = false;
         this.skier.ressurect();
         this.rhino.hide();
         clearTimeout(this.wakeUpRhinoSchedule);
         this.wakeUpRhinoSchedule = this.scheduleToWakeUpRhino();
+    }
+
+    gameEnded() {
+        return !this.skier.isAlive;
     }
 
     scheduleToWakeUpRhino() {
@@ -57,14 +59,12 @@ export class Game {
     }
 
     updateGameWindow() {
-        if (this.rhino.isAwake) {
-            const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
-            if (skierCaught) {
-                this.endGame();
-                return;
-            }
-            this.rhino.moveTowardsSkier(this.skier.getPosition()); 
+        const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
+        if (skierCaught) {
+            this.endGame();
+            return;
         }
+        this.rhino.moveTowardsSkier(this.skier.getPosition());
 
         this.skier.move();
 
@@ -77,11 +77,8 @@ export class Game {
     }
 
     endGame() {
-        if(!this.gameEnded) {
-            this.skier.eated();
-            this.rhino.eatSkier();
-            this.gameEnded = true;
-        }
+        this.rhino.eatSkier(this.skier);
+        this.skier.eated();
     }
 
     drawGameWindow() {
@@ -100,9 +97,9 @@ export class Game {
     }
 
     handleKeyDown(event) {
-        if(event.which === Constants.KEYS.SPACE && this.gameEnded) {
+        if(event.which === Constants.KEYS.SPACE && this.gameEnded()) {
             this.restartGame();
-        } else if(this.gameEnded) {
+        } else if(this.gameEnded()) {
             console.log('Error... ', 'Game ended, press space bar to start again');
             return;
         }

@@ -33,6 +33,9 @@ export class Rhino extends Entity {
     }
 
     moveTowardsSkier(skierPosition) {
+        if(!this.isAwake) {
+            return;
+        }
         const slope = getSlope(skierPosition, this.getPosition());
         if (this.y > skierPosition.y) {
             this.y -= this.speed;
@@ -50,6 +53,9 @@ export class Rhino extends Entity {
     }
 
     checkIfRhinoCatchedSkier(skier, assetManager) {
+        if(!this.isAwake) {
+            return false;
+        }
         const rhinoAsset = assetManager.getAsset(this.assetName);
         const skierAsset = assetManager.getAsset(skier.assetName);
         const rhinoBounds = new Rect(
@@ -67,10 +73,13 @@ export class Rhino extends Entity {
         return intersectTwoRects(rhinoBounds, skierBounds);
     }
 
-    eatSkier() {
-            interval(100)
-            .pipe(takeWhile(val => val !== Constants.RHINO_EAT.EAT4, Constants.RHINO_EAT.EAT4))
-            .subscribe(assetId => this.updateEatingAsset(assetId));
+    eatSkier(skier) {
+        if(!skier.isAlive){
+            return;
+        }
+        interval(100)
+        .pipe(takeWhile(val => val !== Constants.RHINO_EAT.EAT4, Constants.RHINO_EAT.EAT4))
+        .subscribe(assetId => this.updateEatingAsset(assetId));
     }
 
     updateRunningAsset(assetId) {
