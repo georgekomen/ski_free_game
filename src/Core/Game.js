@@ -77,7 +77,7 @@ export class Game {
     }
 
     endGame() {
-        this.rhino.eatSkier(this.skier);
+        this.rhino.eatSkierWithAnimation(this.skier);
         this.skier.eated();
     }
 

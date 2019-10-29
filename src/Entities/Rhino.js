@@ -73,7 +73,7 @@ export class Rhino extends Entity {
         return intersectTwoRects(rhinoBounds, skierBounds);
     }
 
-    eatSkier(skier) {
+    eatSkierWithAnimation(skier) {
         if(!skier.isAlive){
             return;
         }

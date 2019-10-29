@@ -137,6 +137,25 @@ To end the jumping, we subscribe to a setTimeOut event that executes after our d
 event callback we change skier's asset to match the direction he is currently heading to and set his speed to the normal starting speed.
 
 **jumping animations**
-5.) Animated skier jumping
+4.) Animated skier jumping
 To do so, I've added a function that changes skier's asset from one jumping asset to the next at a set interval. It does so with the help of rxjs interval function that generates numbers from 0 - 5 and streams each individually at an interval of (`time taken to jump / number of jumping assets`).
-This is to make the animation be as smooth and fancy as much as possible. We then call the function that changes skier's asset in the callback
+This is to make the animation be as smooth and fancy as much as possible. We then call the function that changes skier's asset in the callback.
+
+**rhino feature**
+5.) Added rhino preying on skier feature
+After some time of skier coming into live, a rhino will wake up some distance above the skier and starts chasing after the skier.
+The skier has more speed than the rhino and can only be caught if you keep colliding with rocks or trees.
+Once caught, the rhino eats the skier and the game ends.
+
+Points to note:
+- I've calculated the gradient / slope between the rhino and the skier to determine how the rhino will smoothly go after the skier from any direction.
+- I've added a field `isAlive` on skier class to help know if he has been caught and eated by the rhino. `isAlive` is false then we stop drawing the skier on the canvas. Also keys pressed to move the skier are disabled as well unless you press the space bar key.
+- Similarly the `isAwake` field of the rhino class helps us determine if it should keep going after the skier and appear on the screen or not.
+
+**eating animation**
+The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 100 milliseconds untill the last one.
+
+**restart game**
+6.) Resart feature
+Once eated by a rhino, the game ends but you can restart by pressing space bar key. The rhino will again appear after some time of skier
+ressurecting.
