@@ -19,7 +19,7 @@ export class Skier extends Entity {
         this.updateAsset(direction);
     }
 
-    eated() {
+    eaten() {
         this.isAlive = false;
     }
 

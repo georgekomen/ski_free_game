@@ -86,7 +86,7 @@ export class Game {
 
     endGame() {
         this.rhino.eatSkierWithAnimation(this.skier);
-        this.skier.eated();
+        this.skier.eaten();
     }
 
     drawGameWindow() {
