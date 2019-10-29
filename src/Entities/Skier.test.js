@@ -172,6 +172,10 @@ describe('skier turn behaviour', () => {
             jest.advanceTimersByTime(Constants.SKIER_JUMP_TIME + 1000);
 
             expect(updateAsset).toHaveBeenNthCalledWith(1, Constants.SKIER_JUMPING.JUMP1);
+            expect(updateAsset).toHaveBeenCalledWith(Constants.SKIER_JUMPING.JUMP2);
+            expect(updateAsset).toHaveBeenCalledWith(Constants.SKIER_JUMPING.JUMP3);
+            expect(updateAsset).toHaveBeenCalledWith(Constants.SKIER_JUMPING.JUMP4);
+            expect(updateAsset).toHaveBeenCalledWith(Constants.SKIER_JUMPING.JUMP5);
         });
     });
 });
