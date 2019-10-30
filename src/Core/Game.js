@@ -113,7 +113,6 @@ export class Game {
         if(event.which === Constants.KEYS.SPACE && this.gameEnded()) {
             this.restartGame();
         } else if(this.gameEnded()) {
-            alert('Game ended, press space key to restart game, arrow keys to move skier and shift key to make skier jump');
             return;
         }
 
