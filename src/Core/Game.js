@@ -8,7 +8,7 @@ import { Rhino } from "../Entities/Rhino";
 
 export class Game {
     gameWindow = null;
-    wakeUpRhinoSchedule = null;
+    wakeUpRhinoSubscription = null;
 
     constructor() {
         this.assetManager = new AssetManager();
@@ -53,9 +53,9 @@ export class Game {
     }
 
     scheduleToWakeUpRhino() {
-        clearTimeout(this.wakeUpRhinoSchedule);
+        clearTimeout(this.wakeUpRhinoSubscription);
         
-        this.wakeUpRhinoSchedule = setTimeout(() => {
+        this.wakeUpRhinoSubscription = setTimeout(() => {
             this.rhino.appear(this.skier.getPosition());
         }, Constants.TIME_TO_WAKE_UP_RHINO);
     }
@@ -74,6 +74,7 @@ export class Game {
 
     rhinoSkierGame() {
         this.skier.move();
+        this.skier.displaySkierControls(this.canvas);
 
         const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
 
@@ -81,7 +82,7 @@ export class Game {
             this.endGame();
             return;
         }
-        this.rhino.moveTowardsSkier(this.skier.getPosition());
+        this.rhino.moveTowardsSkier(this.skier.getPosition()); 
     }
 
     endGame() {
@@ -102,6 +103,10 @@ export class Game {
         const top = skierPosition.y - (Constants.GAME_HEIGHT / 2);
 
         this.gameWindow = new Rect(left, top, left + Constants.GAME_WIDTH, top + Constants.GAME_HEIGHT);
+    }
+
+    displayGameInstructions() {
+
     }
 
     handleKeyDown(event) {

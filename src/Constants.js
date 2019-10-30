@@ -31,6 +31,7 @@ export const SKIER_STARTING_SPEED = 10;
 export const SKIER_JUMPING_SPEED = 12;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
 export const SKIER_JUMP_TIME = 800;
+export const SKIER_SCORING_INTERVAL = 800;
 export const TIME_TO_WAKE_UP_RHINO = (10 * 1000);
 export const RHINO_SPEED = 8;
 

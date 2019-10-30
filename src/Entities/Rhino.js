@@ -5,12 +5,11 @@ import { interval } from "rxjs";
 import { takeWhile} from "rxjs/operators";
 
 export class Rhino extends Entity {
-    assetName = Constants.RHINO;
-    speed = Constants.RHINO_SPEED;
-    isAwake = false;
-
     constructor(x, y) {
         super(x, y);
+        this.assetName = Constants.RHINO;
+        this.speed = Constants.RHINO_SPEED;
+        this.isAwake = false;
     }
 
     appear(skierPosition) {

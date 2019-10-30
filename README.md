@@ -157,12 +157,18 @@ Points to note:
 The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 250 milliseconds untill the last one.
 
 **restart game**
-7.) Resart feature
+7.) Resart / Reset feature
 Once eated by a rhino, the game ends but you can restart by pressing `SPACE KEY`. The rhino will again appear after some time of skier
 ressurecting.
 
+**scoring**
+8.) Scoring feature
+- You get scored one point after every set time of movement, now every 800 milliseconds of continuous movement.
+- You also get deducted 0.5 points if you crash into a rock or a tree and keep laying down :-).
+
+
 **DEPLOYMENT !!!!!**
-8.) Finally deployed app to a kunbernetes cluster in gcp
+9.) Finally deployed app to a kubernetes cluster in gcp
 STEPS:
 - Modified webpack to include images that will be needed to run the application in production, this is with help of CopyWebpackPlugin.
 - Created a docker file that builds our app by placing it behind an nginx web server.

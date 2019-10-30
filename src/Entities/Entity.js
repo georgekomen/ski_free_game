@@ -27,4 +27,8 @@ export class Entity {
 
         canvas.drawImage(asset, drawX, drawY, asset.width, asset.height);
     }
+
+    drawText(canvas, text, position, size) {
+        canvas.fillText(text, position.x, position.y, size.x, size.y);
+    }
 }
