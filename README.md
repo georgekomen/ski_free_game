@@ -168,3 +168,4 @@ STEPS:
 - Created a docker file that builds our app by placing it behind an nginx web server.
 - Added a shell script that runs tests, builds the application then builds the final image with the help of the docker file and uploads it to our gcr.io image repository.
 - Added a kubernetes deploment file that also creates a service and an ingress to allow us access the application from the internet.
+- link to the app: http://35.244.216.186/
