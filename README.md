@@ -153,9 +153,18 @@ Points to note:
 - Similarly the `isAwake` field of the rhino class helps us determine if it should keep going after the skier and appear on the screen or not.
 
 **eating animation**
+6.) Rhino animations
 The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 250 milliseconds untill the last one.
 
 **restart game**
-6.) Resart feature
+7.) Resart feature
 Once eated by a rhino, the game ends but you can restart by pressing `SPACE KEY`. The rhino will again appear after some time of skier
 ressurecting.
+
+**DEPLOYMENT !!!!!**
+8.) Finally deployed app to a kunbernetes cluster in gcp
+STEPS:
+- Modified webpack to include images that will be needed to run the application in production, this is with help of CopyWebpackPlugin
+- Created a docker file that builds our app by placing it behind an nginx web server
+- Added a shell script that runs tests, builds the application then builds the final image with the help of the docker file
+- Added a kubernetes deploment file that also creates a service and an ingress to allow us access the application from the internet
