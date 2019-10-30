@@ -5,6 +5,8 @@ import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
 import { Rhino } from "../Entities/Rhino";
+import { interval } from "rxjs";
+import { takeWhile,delay } from "rxjs/operators";
 
 export class Game {
     gameWindow = null;
@@ -18,6 +20,7 @@ export class Game {
         this.obstacleManager = new ObstacleManager();
 
         this.scheduleToWakeUpRhino();
+        this.scoreSkier();
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
@@ -39,6 +42,24 @@ export class Game {
         requestAnimationFrame(this.run.bind(this));
     }
 
+    scoreSkier() {
+        this.skier.score = 0;
+        interval(Constants.SKIER_SCORING_INTERVAL)
+        .pipe(
+            delay(500),
+            takeWhile(() => this.skier.isAlive)
+            )
+        .subscribe(() => {
+            if(this.skier.isMoving()) {
+                ++this.skier.score;
+                this.skier.speed += 0.1;
+                this.rhino.speed += 0.1;
+            } else if (this.skier.skierCrashed() && this.skier.score > 0) {
+                this.skier.score -= 0.5;
+            }
+        });
+    }
+
     restartGame() {
         if(!this.gameEnded()) {
             return;
@@ -46,6 +67,7 @@ export class Game {
         this.skier.ressurect();
         this.rhino.hide();
         this.scheduleToWakeUpRhino();
+        this.scoreSkier();
     }
 
     gameEnded() {

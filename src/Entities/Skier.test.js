@@ -117,13 +117,13 @@ describe('skier turn behaviour', () => {
         test('skier is jumping if he moves at jumping speed', () => {
             skier.speed = Constants.SKIER_JUMPING_SPEED;
 
-            expect(skier.isJumping()).toBe(true);
+            expect(skier.behaviourState.isJumping).toBe(true);
         });
 
         test('skier should jump over rocks only if already in jumping mode / speed', () => {
             skier.speed = Constants.SKIER_JUMPING_SPEED;
 
-            expect(skier.isJumping()).toBe(true);
+            expect(skier.behaviourState.isJumping).toBe(true);
             expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(true);
             expect(skier.canJumpObstacle(Constants.ROCK2)).toBe(true);
 
@@ -133,9 +133,9 @@ describe('skier turn behaviour', () => {
         });
 
         test('skier should not jump over rocks if not in jumping mode / speed', () => {
-            skier.speed = Constants.SKIER_STARTING_SPEED;
+            skier.behaviourState.isJumping = false;
 
-            expect(skier.isJumping()).toBe(false);
+            expect(skier.behaviourState.isJumping).toBe(false);
             expect(skier.canJumpObstacle(Constants.ROCK1)).toBe(false);
             expect(skier.canJumpObstacle(Constants.ROCK2)).toBe(false);
             
@@ -145,7 +145,7 @@ describe('skier turn behaviour', () => {
         });
 
         test('skier should never jump over trees even on jumping mode / speed', () => {
-            skier.speed = Constants.SKIER_JUMPING_SPEED;
+            skier.behaviourState.isJumping = true;
 
             expect(skier.canJumpObstacle(Constants.TREE)).toBe(false);
             expect(skier.canJumpObstacle(Constants.TREE_CLUSTER)).toBe(false);

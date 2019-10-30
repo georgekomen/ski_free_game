@@ -2,9 +2,13 @@ import * as Constants from "../Constants";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 import { Entity } from "./Entity";
 import { interval } from "rxjs";
-import { takeWhile,delay } from "rxjs/operators";
+import { takeWhile } from "rxjs/operators";
 
 export class Skier extends Entity {
+    behaviourState ={
+        isJumping : false
+    }
+
     constructor(x, y) {
         super(x, y);
         this.assetName = Constants.SKIER_DOWN;
@@ -12,23 +16,6 @@ export class Skier extends Entity {
         this.speed = Constants.SKIER_STARTING_SPEED;
         this.isAlive = true;
         this.score = 0;
-        this.scoreSkier();
-    }
-
-    scoreSkier() {
-        this.score = 0;
-        interval(Constants.SKIER_SCORING_INTERVAL)
-        .pipe(
-            delay(500),
-            takeWhile(() => this.isAlive)
-            )
-        .subscribe(() => {
-            if(this.isMoving()) {
-                ++this.score;
-            } else if (this.skierCrashed() && this.score > 0) {
-                this.score -= 0.5;
-            }
-        });
     }
 
     isMoving() {
@@ -50,7 +37,6 @@ export class Skier extends Entity {
     ressurect() {
         this.isAlive = true;
         this.moveSkierDown();
-        this.scoreSkier();
     }
 
     displaySkierControls(canvas) {
@@ -77,7 +63,7 @@ export class Skier extends Entity {
     }
 
     updateAsset(assetId) {
-        if (this.isJumping()) {
+        if (this.behaviourState.isJumping) {
             this.assetName = Constants.SKIER_JUMPING_ASSET[assetId];
         } else {
             this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
@@ -197,22 +183,18 @@ export class Skier extends Entity {
     }
 
     canJumpObstacle(obstacleName) {
-        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) && this.isJumping();
-    }
-
-    isJumping() {
-        return this.speed === Constants.SKIER_JUMPING_SPEED;
+        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) && this.behaviourState.isJumping;
     }
 
     jump() {
-        this.speed = Constants.SKIER_JUMPING_SPEED;
+        this.behaviourState.isJumping = true;
         this.jumpingAnimation();
         this.endJump();
     }
 
     endJump() {
         setTimeout(() => {
-            this.speed = Constants.SKIER_STARTING_SPEED;
+            this.behaviourState.isJumping = false;
             this.updateAsset(this.direction);
         }, Constants.SKIER_JUMP_TIME);
     }
