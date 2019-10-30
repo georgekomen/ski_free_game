@@ -127,10 +127,6 @@ export class Game {
         this.gameWindow = new Rect(left, top, left + Constants.GAME_WIDTH, top + Constants.GAME_HEIGHT);
     }
 
-    displayGameInstructions() {
-
-    }
-
     handleKeyDown(event) {
         if(event.which === Constants.KEYS.SPACE && this.gameEnded()) {
             this.restartGame();
