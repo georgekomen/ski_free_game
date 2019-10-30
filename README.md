@@ -166,9 +166,12 @@ ressurecting.
 - You get scored one point after every set time of movement, now every 800 milliseconds of continuous movement.
 - You also get deducted 0.5 points if you crash into a rock or a tree and keep laying down :-).
 
+**Increase difficulty**
+9.) The skier's and rhino's speeds increases by 0.1 every time you earn one point
+
 
 **DEPLOYMENT !!!!!**
-9.) Finally deployed app to a kubernetes cluster in gcp
+10.) Finally deployed app to a kubernetes cluster in gcp
 STEPS:
 - Modified webpack to include images that will be needed to run the application in production, this is with help of CopyWebpackPlugin.
 - Created a docker file that builds our app by placing it behind an nginx web server.

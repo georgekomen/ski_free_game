@@ -131,6 +131,7 @@ export class Game {
         if(event.which === Constants.KEYS.SPACE && this.gameEnded()) {
             this.restartGame();
         } else if(this.gameEnded()) {
+            // if game ended, no other action is allowed apart from restarting it
             return;
         }
 
