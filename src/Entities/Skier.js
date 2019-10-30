@@ -44,7 +44,7 @@ export class Skier extends Entity {
         let startingYposition = 7;
 
         const scoreDisplayText = `Current score: ${this.score}`;
-        const speedDisplayText = `Skier: ${this.speed.toFixed(2)}, Rhino: ${rhinoSpeed.toFixed(2)}`;
+        const speedDisplayText = `Speeds: skier: ${this.speed.toFixed(2)}, rhino: ${rhinoSpeed.toFixed(2)}`;
         const jumpInstr = 'Shift key - jump over rocks';
         const restartInstr = 'Space key - restart game';
         const moveInstr = 'Arrow keys - move skier';
