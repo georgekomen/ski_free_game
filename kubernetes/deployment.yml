@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ski-game-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ski-game
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ski-game
+    spec:
+      containers:
+      - name: ski-game
+        image: gcr.io/trusty-solution-256615/ski-free-game
+        ports:
+        - containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ski-game-service
+spec:
+  type: NodePort
+  selector:
+    app: ski-game
+  ports:
+  - port: 8080
+    targetPort: 80
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ski-game-ingress
+spec:
+  backend:
+    serviceName: ski-game-service
+    servicePort: 8080
