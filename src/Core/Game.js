@@ -96,7 +96,7 @@ export class Game {
 
     rhinoSkierGame() {
         this.skier.move();
-        this.skier.displaySkierControls(this.canvas);
+        this.skier.displaySkierControls(this.canvas, this.rhino.speed);
 
         const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
 

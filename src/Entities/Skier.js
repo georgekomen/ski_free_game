@@ -36,18 +36,20 @@ export class Skier extends Entity {
 
     ressurect() {
         this.isAlive = true;
+        this.speed = Constants.SKIER_STARTING_SPEED;
         this.moveSkierDown();
     }
 
-    displaySkierControls(canvas) {
+    displaySkierControls(canvas, rhinoSpeed) {
         let startingYposition = 7;
 
         const scoreDisplayText = `Current score: ${this.score}`;
+        const speedDisplayText = `Skier: ${this.speed.toFixed(2)}, Rhino: ${rhinoSpeed.toFixed(2)}`;
         const jumpInstr = 'Shift key - jump over rocks';
         const restartInstr = 'Space key - restart game';
         const moveInstr = 'Arrow keys - move skier';
 
-        const displayText = [scoreDisplayText, jumpInstr, restartInstr, moveInstr];
+        const displayText = [scoreDisplayText, speedDisplayText, jumpInstr, restartInstr, moveInstr];
 
         displayText.forEach(text => {
             startingYposition += 11;

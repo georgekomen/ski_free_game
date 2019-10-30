@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ski-game
-        image: gcr.io/trusty-solution-256615/ski-free-game:score
+        image: gcr.io/trusty-solution-256615/ski-free-game:diff
         ports:
         - containerPort: 80
 

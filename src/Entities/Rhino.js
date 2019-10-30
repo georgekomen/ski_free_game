@@ -21,6 +21,7 @@ export class Rhino extends Entity {
     hide() {
         this.x = 0;
         this.y = 0;
+        this.speed = Constants.RHINO_SPEED;
         this.isAwake = false;
     }
 
