@@ -57,7 +57,7 @@ export class Skier extends Entity {
         let startingYposition = 7;
 
         const scoreDisplayText = `Current score: ${this.score}`;
-        const jumpInstr = 'Shift key - Skier jumps';
+        const jumpInstr = 'Shift key - jump over rocks';
         const restartInstr = 'Space key - restarts game';
         const moveInstr = 'Arrow keys - moves skier';
 
