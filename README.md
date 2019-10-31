@@ -161,7 +161,7 @@ Once eated by a rhino, the game ends but you can restart by pressing `SPACE KEY`
 - You get scored one point after every set time of movement, now every 800 milliseconds of continuous movement.
 - You also get deducted 0.5 points if you crash into a rock or a tree and keep laying down :-).
 
-**Increase difficulty**
+**increase difficulty**
 9.) The skier's and rhino's speeds increases by 0.1 every time you earn one point
 
 

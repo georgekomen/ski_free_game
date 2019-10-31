@@ -26,7 +26,7 @@ export class Rect {
 }
 
 export function getSlope(pointA, pointB) {
-    const Ydifference = (pointB.y - pointA.y);
-    const Xdifference = (pointB.x - pointA.x);
-    return (Ydifference / Xdifference);
+    const Ydifference = pointB.y - pointA.y;
+    const Xdifference = pointB.x - pointA.x;
+    return Ydifference / Xdifference;
 }

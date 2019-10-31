@@ -5,9 +5,9 @@ import { interval } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 
 export class Skier extends Entity {
-    behaviourState ={
-        isJumping : false
-    }
+    behaviourState = {
+        isJumping: false
+    };
 
     constructor(x, y) {
         super(x, y);
@@ -19,10 +19,12 @@ export class Skier extends Entity {
     }
 
     isMoving() {
-        return this.direction === 
-        (Constants.SKIER_DIRECTIONS.DOWN
-            || Constants.SKIER_DIRECTIONS.LEFT_DOWN
-            || Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
+        return (
+            this.direction ===
+            (Constants.SKIER_DIRECTIONS.DOWN ||
+                Constants.SKIER_DIRECTIONS.LEFT_DOWN ||
+                Constants.SKIER_DIRECTIONS.RIGHT_DOWN)
+        );
     }
 
     setDirection(direction) {
@@ -44,24 +46,37 @@ export class Skier extends Entity {
         let startingYposition = 7;
 
         const scoreDisplayText = `Current score: ${this.score}`;
-        const speedDisplayText = `Speeds: skier: ${this.speed.toFixed(2)}, rhino: ${rhinoSpeed.toFixed(2)}`;
-        const jumpInstr = 'Shift key - jump over rocks';
-        const restartInstr = 'Space key - restart game';
-        const moveInstr = 'Arrow keys - move skier';
+        const speedDisplayText = `Speeds: skier: ${this.speed.toFixed(
+            2
+        )}, rhino: ${rhinoSpeed.toFixed(2)}`;
+        const jumpInstr = "Shift key - jump over rocks";
+        const restartInstr = "Space key - restart game";
+        const moveInstr = "Arrow keys - move skier";
 
-        const displayText = [scoreDisplayText, speedDisplayText, jumpInstr, restartInstr, moveInstr];
+        const displayText = [
+            scoreDisplayText,
+            speedDisplayText,
+            jumpInstr,
+            restartInstr,
+            moveInstr
+        ];
 
         displayText.forEach(text => {
             startingYposition += 11;
-            super.drawText(canvas, text, {x: 3, y: startingYposition}, {x: 500, y: 500});
+            super.drawText(
+                canvas,
+                text,
+                { x: 3, y: startingYposition },
+                { x: 500, y: 500 }
+            );
         });
     }
 
     draw(canvas, assetManager) {
-        if(!this.isAlive) {
+        if (!this.isAlive) {
             return;
         }
-        super.draw(canvas, assetManager)
+        super.draw(canvas, assetManager);
     }
 
     updateAsset(assetId) {
@@ -73,10 +88,10 @@ export class Skier extends Entity {
     }
 
     move() {
-        if(!this.isAlive) {
+        if (!this.isAlive) {
             return;
         }
-        switch(this.direction) {
+        switch (this.direction) {
             case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
                 this.moveSkierLeftDown();
                 break;
@@ -116,7 +131,7 @@ export class Skier extends Entity {
     }
 
     turnLeft() {
-        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
+        if (this.direction == Constants.SKIER_DIRECTIONS.DOWN) {
             this.setDirection(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.LEFT);
@@ -125,7 +140,7 @@ export class Skier extends Entity {
     }
 
     turnRight() {
-        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
+        if (this.direction == Constants.SKIER_DIRECTIONS.DOWN) {
             this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT);
@@ -134,7 +149,10 @@ export class Skier extends Entity {
     }
 
     turnUp() {
-        if(this.direction === Constants.SKIER_DIRECTIONS.LEFT || this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
+        if (
+            this.direction === Constants.SKIER_DIRECTIONS.LEFT ||
+            this.direction === Constants.SKIER_DIRECTIONS.RIGHT
+        ) {
             this.moveSkierUp();
         }
     }
@@ -153,7 +171,7 @@ export class Skier extends Entity {
             this.y - asset.height / 4
         );
 
-        const collision = obstacleManager.getObstacles().find((obstacle) => {
+        const collision = obstacleManager.getObstacles().find(obstacle => {
             obstacleName = obstacle.getAssetName();
             const obstacleAsset = assetManager.getAsset(obstacleName);
             const obstaclePosition = obstacle.getPosition();
@@ -167,8 +185,8 @@ export class Skier extends Entity {
             return intersectTwoRects(skierBounds, obstacleBounds);
         });
 
-        if(collision) {
-            this.checkIfShouldJumpOrCrashAfterCollision(obstacleName);    
+        if (collision) {
+            this.checkIfShouldJumpOrCrashAfterCollision(obstacleName);
         }
     }
 
@@ -177,7 +195,10 @@ export class Skier extends Entity {
     }
 
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
-        if (obstacleName === Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
+        if (
+            obstacleName === Constants.JUMP_RUMP ||
+            this.canJumpObstacle(obstacleName)
+        ) {
             this.jump();
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
@@ -185,7 +206,10 @@ export class Skier extends Entity {
     }
 
     canJumpObstacle(obstacleName) {
-        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) && this.behaviourState.isJumping;
+        return (
+            [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) &&
+            this.behaviourState.isJumping
+        );
     }
 
     jump() {
@@ -203,7 +227,12 @@ export class Skier extends Entity {
 
     jumpingAnimation() {
         interval(Constants.SKIER_JUMP_TIME / 5)
-        .pipe(takeWhile(val => val !== Constants.SKIER_JUMPING.JUMP5, Constants.SKIER_JUMPING.JUMP5))
-        .subscribe(assetId => this.updateAsset(assetId));
+            .pipe(
+                takeWhile(
+                    val => val !== Constants.SKIER_JUMPING.JUMP5,
+                    Constants.SKIER_JUMPING.JUMP5
+                )
+            )
+            .subscribe(assetId => this.updateAsset(assetId));
     }
 }

@@ -1,12 +1,12 @@
 import * as Constants from "../Constants";
 import { AssetManager } from "./AssetManager";
-import { Canvas } from './Canvas';
+import { Canvas } from "./Canvas";
 import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
-import { Rect } from './Utils';
+import { Rect } from "./Utils";
 import { Rhino } from "../Entities/Rhino";
 import { interval } from "rxjs";
-import { takeWhile,delay } from "rxjs/operators";
+import { takeWhile, delay } from "rxjs/operators";
 
 export class Game {
     gameWindow = null;
@@ -22,7 +22,7 @@ export class Game {
         this.scheduleToWakeUpRhino();
         this.scoreSkier();
 
-        document.addEventListener('keydown', this.handleKeyDown.bind(this));
+        document.addEventListener("keydown", this.handleKeyDown.bind(this));
     }
 
     init() {
@@ -45,23 +45,23 @@ export class Game {
     scoreSkier() {
         this.skier.score = 0;
         interval(Constants.SKIER_SCORING_INTERVAL)
-        .pipe(
-            delay(500),
-            takeWhile(() => this.skier.isAlive)
+            .pipe(
+                delay(500),
+                takeWhile(() => this.skier.isAlive)
             )
-        .subscribe(() => {
-            if(this.skier.isMoving()) {
-                ++this.skier.score;
-                this.skier.speed += 0.1;
-                this.rhino.speed += 0.1;
-            } else if (this.skier.skierCrashed() && this.skier.score > 0) {
-                this.skier.score -= 0.5;
-            }
-        });
+            .subscribe(() => {
+                if (this.skier.isMoving()) {
+                    ++this.skier.score;
+                    this.skier.speed += 0.1;
+                    this.rhino.speed += 0.1;
+                } else if (this.skier.skierCrashed() && this.skier.score > 0) {
+                    this.skier.score -= 0.5;
+                }
+            });
     }
 
     restartGame() {
-        if(!this.gameEnded()) {
+        if (!this.gameEnded()) {
             return;
         }
         this.skier.ressurect();
@@ -76,7 +76,7 @@ export class Game {
 
     scheduleToWakeUpRhino() {
         clearTimeout(this.wakeUpRhinoSubscription);
-        
+
         this.wakeUpRhinoSubscription = setTimeout(() => {
             this.rhino.appear(this.skier.getPosition());
         }, Constants.TIME_TO_WAKE_UP_RHINO);
@@ -98,13 +98,16 @@ export class Game {
         this.skier.move();
         this.skier.displaySkierControls(this.canvas, this.rhino.speed);
 
-        const skierCaught = this.rhino.checkIfRhinoCatchedSkier(this.skier, this.assetManager);
+        const skierCaught = this.rhino.checkIfRhinoCatchedSkier(
+            this.skier,
+            this.assetManager
+        );
 
         if (skierCaught) {
             this.endGame();
             return;
         }
-        this.rhino.moveTowardsSkier(this.skier.getPosition()); 
+        this.rhino.moveTowardsSkier(this.skier.getPosition());
     }
 
     endGame() {
@@ -128,14 +131,14 @@ export class Game {
     }
 
     handleKeyDown(event) {
-        if(event.which === Constants.KEYS.SPACE && this.gameEnded()) {
+        if (event.which === Constants.KEYS.SPACE && this.gameEnded()) {
             this.restartGame();
-        } else if(this.gameEnded()) {
+        } else if (this.gameEnded()) {
             // if game ended, no other action is allowed apart from restarting it
             return;
         }
 
-        switch(event.which) {
+        switch (event.which) {
             case Constants.KEYS.LEFT:
                 this.skier.turnLeft();
                 event.preventDefault();
