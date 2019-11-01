@@ -42,13 +42,16 @@ export class Skier extends Entity {
         this.moveSkierDown();
     }
 
+    /**
+     * @param {Canvas} canvas - a graphics container that will render in dom 
+     * @param {number} rhinoSpeed - speed of rhino instantiated from the game class
+     * Prints on the screen state of the game e.g. rhino and skier speeds
+     */
     displaySkierControls(canvas, rhinoSpeed) {
         let startingYposition = 7;
 
         const scoreDisplayText = `Current score: ${this.score}`;
-        const speedDisplayText = `Speeds: skier: ${this.speed.toFixed(
-            2
-        )}, rhino: ${rhinoSpeed.toFixed(2)}`;
+        const speedDisplayText = `Speeds: skier: ${this.speed.toFixed(2)}, rhino: ${rhinoSpeed.toFixed(2)}`;
         const jumpInstr = "Shift key - jump over rocks";
         const restartInstr = "Space key - restart game";
         const moveInstr = "Arrow keys - move skier";
@@ -194,6 +197,10 @@ export class Skier extends Entity {
         return this.direction === Constants.SKIER_DIRECTIONS.CRASH;
     }
 
+    /**
+     * @param {string} obstacleName - name of obstacle skier just collided with
+     * The skier will either jump or crash depending on the obstacle
+     */
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
         if (
             obstacleName === Constants.JUMP_RUMP ||
@@ -205,6 +212,11 @@ export class Skier extends Entity {
         }
     }
 
+    /**
+     * 
+     * @param {string} obstacleName - name of obstacle skier just collided with
+     * @returns A boolean value whether skier can jump the obstacle or not
+     */
     canJumpObstacle(obstacleName) {
         return (
             [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) &&

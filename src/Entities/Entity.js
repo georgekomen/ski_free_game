@@ -28,6 +28,13 @@ export class Entity {
         canvas.drawImage(asset, drawX, drawY, asset.width, asset.height);
     }
 
+    /**
+     * 
+     * @param {Canvas} canvas 
+     * @param {*string} text - text to render in the view
+     * @param {Object} position - position in the view where text should be rendered
+     * @param {Object} size - box size in which text is rendered
+     */
     drawText(canvas, text, position, size) {
         canvas.fillText(text, position.x, position.y, size.x, size.y);
     }
