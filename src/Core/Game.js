@@ -75,11 +75,16 @@ export class Game {
     }
 
     scheduleToWakeUpRhino() {
-        clearTimeout(this.wakeUpRhinoSubscription);
+        this.resetWakeUpRhinoTimeOutSubscription();
 
+        // make a new subscription to wake up rhino after some time
         this.wakeUpRhinoSubscription = setTimeout(() => {
             this.rhino.appear(this.skier.getPosition());
         }, Constants.TIME_TO_WAKE_UP_RHINO);
+    }
+
+    resetWakeUpRhinoTimeOutSubscription() {
+        clearTimeout(this.wakeUpRhinoSubscription);
     }
 
     updateGameWindow() {
