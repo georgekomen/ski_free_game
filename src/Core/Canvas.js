@@ -46,6 +46,13 @@ export class Canvas {
         this.ctx.drawImage(image, x, y, width, height);
     }
 
+    /**
+     * @param {String} text 
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {Number} width 
+     * @param {Number} height 
+     */
     fillText(text, x, y, width, height) {
         this.ctx.fillText(text, x, y, width, height);
     }

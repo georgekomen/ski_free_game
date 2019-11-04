@@ -9,6 +9,10 @@ export class Skier extends Entity {
         isJumping: false
     };
 
+    /**
+     * @param {Number} x 
+     * @param {Number} y 
+     */
     constructor(x, y) {
         super(x, y);
         this.assetName = Constants.SKIER_DOWN;
@@ -44,7 +48,7 @@ export class Skier extends Entity {
 
     /**
      * @param {Canvas} canvas - a graphics container that will render in dom 
-     * @param {number} rhinoSpeed - speed of rhino instantiated from the game class
+     * @param {Number} rhinoSpeed - speed of rhino instantiated from the game class
      * Prints on the screen state of the game e.g. rhino and skier speeds
      */
     displaySkierControls(canvas, rhinoSpeed) {
@@ -75,6 +79,10 @@ export class Skier extends Entity {
         });
     }
 
+    /**
+     * @param {Canvas} canvas 
+     * @param {Assetmanager} assetManager 
+     */
     draw(canvas, assetManager) {
         if (!this.isAlive) {
             return;
@@ -82,6 +90,9 @@ export class Skier extends Entity {
         super.draw(canvas, assetManager);
     }
 
+    /**
+     * @param {Number} assetId 
+     */
     updateAsset(assetId) {
         if (this.behaviourState.isJumping) {
             this.assetName = Constants.SKIER_JUMPING_ASSET[assetId];
@@ -164,6 +175,10 @@ export class Skier extends Entity {
         this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
     }
 
+    /**
+     * @param {ObstacleManager} obstacleManager 
+     * @param {Assetmanager} assetManager 
+     */
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
         let obstacleName;
         const asset = assetManager.getAsset(this.assetName);
@@ -198,7 +213,7 @@ export class Skier extends Entity {
     }
 
     /**
-     * @param {string} obstacleName - name of obstacle skier just collided with
+     * @param {String} obstacleName - name of obstacle skier just collided with
      * The skier will either jump or crash depending on the obstacle
      */
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
@@ -214,7 +229,7 @@ export class Skier extends Entity {
 
     /**
      * 
-     * @param {string} obstacleName - name of obstacle skier just collided with
+     * @param {String} obstacleName - name of obstacle skier just collided with
      * @returns A boolean value whether skier can jump the obstacle or not
      */
     canJumpObstacle(obstacleName) {

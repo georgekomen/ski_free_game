@@ -12,6 +12,9 @@ export class Rhino extends Entity {
         this.isAwake = false;
     }
 
+    /**
+     * @param {Object {x: Number, y: Number} } skierPosition 
+     */
     appear(skierPosition) {
         this.isAwake = true;
         this.x = Math.random() * randomInt(-100, 100);
@@ -25,6 +28,10 @@ export class Rhino extends Entity {
         this.isAwake = false;
     }
 
+     /**
+     * @param {Canvas} canvas 
+     * @param {Assetmanager} assetManager 
+     */
     draw(canvas, assetManager) {
         if (!this.isAwake) {
             return;
@@ -32,6 +39,9 @@ export class Rhino extends Entity {
         super.draw(canvas, assetManager);
     }
 
+    /**
+     * @param {Object {x: Number, y: Number} } skierPosition
+     */
     moveTowardsSkier(skierPosition) {
         if (!this.isAwake) {
             return;
@@ -52,6 +62,10 @@ export class Rhino extends Entity {
         }
     }
 
+    /**
+     * @param {Skier} skier 
+     * @param {AssetManager} assetManager 
+     */
     checkIfRhinoCatchedSkier(skier, assetManager) {
         if (!this.isAwake) {
             return false;
@@ -73,6 +87,9 @@ export class Rhino extends Entity {
         return intersectTwoRects(rhinoBounds, skierBounds);
     }
 
+    /**
+     * @param {Skier} skier 
+     */
     eatSkierWithAnimation(skier) {
         if (!skier.isAlive) {
             return;
@@ -87,10 +104,16 @@ export class Rhino extends Entity {
             .subscribe(assetId => this.updateEatingAsset(assetId));
     }
 
+    /**
+     * @param {Number} assetId 
+     */
     updateRunningAsset(assetId) {
         this.assetName = Constants.RHINO_RUN_ASSET[assetId];
     }
 
+    /**
+     * @param {Number} assetId 
+     */
     updateEatingAsset(assetId) {
         this.assetName = Constants.RHINO_EAT_ASSET[assetId];
     }
