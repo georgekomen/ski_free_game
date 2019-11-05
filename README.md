@@ -92,20 +92,24 @@ how creative candidates get with this.
 
 We are looking forward to see what you come up with!
 
+                                       **************************************************
 
+***George Komen's Solution***
 
-***GEORGE KOMEN PROGRESS***
-1.) Crash bug fixed (*Actually two bugs, turning left or right after a crash*).
+***Live link - http://35.244.216.186/***
+
+1.) **crash bug fixed**
+
+(*Actually fixed two bugs, turning left or right after a crash*).
 
 Bug Description : Turning skier left after crashing into a rock or a tree caused the whole game to crash and end.
 
-**Root cause:**
-- Calling the function below when the skier has crashed means `this.direction` is `Constants.SKIER_DIRECTIONS.CRASH`
- and therefore the else block will be executed.
+**root cause:**
+- Calling the function below when the skier already crashed means `this.direction` is `Constants.SKIER_DIRECTIONS.CRASH` and therefore the else block gets executed.
 
-- From `Constants.SKIER_DIRECTIONS` enum, `CRASH` has the value number `0` and therefore executing the line 
+- From `Constants.SKIER_DIRECTIONS` object, `CRASH` has the value of `0` and therefore executing the line 
 `this.setDirection(this.direction - 1)` tries to look for an asset from `Constants.SKIER_DIRECTION_ASSET` map with key `-1` which 
-does not exist e.g. `Constants.SKIER_DIRECTION_ASSET[-1]` then causes the error: `cannot read property 'width' of undefined`, asset is undefined.
+doesn't exist i.e. `Constants.SKIER_DIRECTION_ASSET[-1]` then causes the error: `cannot read property 'width' of undefined` because asset with key `-1` is undefined.
 
 ```
 turnLeft() {
@@ -117,61 +121,77 @@ turnLeft() {
     }
 }
 ```
-**game crash unit tests**
-2.) Wrote unit tests to make sure the following conditions are satisfied by the new function:
+2.) **crash bug solution unit tests**
+
+ I've written unit tests to make sure the following conditions are satisfied by the new function:
 - skier should move left down if turned left while moving down.
 - skier should move left if turned left while moving left down.
 - skier should wake up facing left and move if turned left when crashed.
 * Same conditions apply when turning skier right after a crash.
 
-**Jumping feature**
-3.) Added jumping feature under the following conditions:
-- skier should always automatically jump over jumping rumps.
-- skier can jump over rocks by pressing `SHIFT KEY` just before colliding with the rock.
-- skier can never jump over tress even by pressing `SHIFT KEY`.
+3.) **jumping feature**
+
+ Added jumping feature under the following conditions:
+- skier should automatically jump over jumping rumps.
+- skier should jump over rocks by pressing `SHIFT KEY` just before colliding with a rock.
+- skier should never jump over trees even by pressing `SHIFT KEY`.
 * Unit tests to assert this conditions also included.
 
-To make an impression of a skier jumping, we increase his speed and change his asset for a specified amount of time. The skier 
-continues to move in the original direction only with an increased speed and a different asset.
-To end the jumping, we subscribe to a setTimeOut event that executes after our desired time of making the skier jump and in the 
-event callback we change skier's asset to match the direction he is currently heading to and set his speed to the normal starting speed.
+To make an impression of skier jumping, his asset keeps on changing for a specified amount of time. Also the skier continues to move in the same direction only with different asset.
+To end jumping, we subscribe to a setTimeOut event that executes after some time of skier jumping. In the callback event of the setTimeout we change skier's asset to match the direction he heads to at that time.
 
-**jumping animations**
-4.) Animated skier jumping
-To do so, I've added a function that changes skier's asset from one jumping asset to the next at a set interval. It does so with the help of rxjs interval function that generates numbers from 0 - 5 and streams each individually at an interval of (`time taken to jump / number of jumping assets`).
-This is to make the animation be as smooth and fancy as much as possible. We then call the function that changes skier's asset in the callback.
+4.) **jumping animation**
 
-**rhino feature**
-5.) Added rhino preying on skier feature
-After some time of skier coming into live, a rhino will wake up some distance above the skier and starts chasing after the skier.
-The skier has more speed than the rhino and can only be caught if you keep colliding with rocks or trees.
-Once caught, the rhino eats the skier and the game ends.
+Skier gets animated when jumping. Its done by executing a function that changes skier's asset from one jumping asset to the next at an interval and does so with the help of `rxjs interval` function that generates numbers 0 - 5 and streams each individually at an interval of (`time taken to jump / number of jumping assets`).
+With each stream, we execute a function that changes skier's asset in the callback of this rxjs observable.
+
+5.) **rhino feature**
+
+After some time of skier coming to live, a rhino will appear some distance above him and starts chasing after him.
+The skier has more speed than the rhino and can only be caught if he keeps colliding with rocks and trees.
+Once the skier is caught, the rhino eats him and the game ends.
 
 Points to note:
 - I've calculated the gradient / slope between the rhino and the skier to determine how the rhino will smoothly go after the skier from any direction.
-- I've added a field `isAlive` on skier class to help know if he has been caught and eated by the rhino. `isAlive` is false then we stop drawing the skier on the canvas. Also keys pressed to move the skier are disabled as well unless you press the space bar key.
-- Similarly the `isAwake` field of the rhino class helps us determine if it should keep going after the skier and appear on the screen or not.
+- I've also added a property `isAlive` in Skier class to flag when he has been eaten by the rhino. If `isAlive` is false, we stop drawing him in the canvas and also disable control keys for his movement.
+- Similarly `isAwake` property in Rhino class is for determining when the rhino should be active. When false, he is stationary at position (0, 0) and is not drawn in the canvas otherwise when true he moves after the skier and is drawn in the canvas.
 
-**eating animation**
-6.) Rhino animations
-The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 250 milliseconds untill the last one.
+6.) **rhino eating animation**
 
-**restart game**
-7.) Resart / Reset feature
-Once eated by a rhino, the game ends but you can restart by pressing `SPACE KEY`. The rhino will again appear after some time of skier
-ressurecting.
+The rhino is animated eating the skier. Each of the png images of rhino eating is streamed and displayed one at a time. It's also done with the help of `rxjs interval` function. Each of the images is displayed for 250 milliseconds until the last one.
 
-**scoring**
-8.) Scoring feature
-- You get scored one point after every set time of movement, now every 800 milliseconds of continuous movement.
-- You also get deducted 0.5 points if you crash into a rock or a tree and keep laying down :-).
+7.) **scoring feature**
+
+- Skier earns one point after every 800 ms of continuous movement.
+- He also get deducted 0.5 points for colliding with rock and trees. 
+- He looses 0.5 points every 800 ms of staying in crash mode. To stop loosing points, the skier should immediately get up and move after a crash :-).
+* this time period of scoring i.e. 800 ms is configurable in the constants file.
+
+8.) **increasing difficulty feature**
+
+ Skier's and rhino's speed increases by 0.1 every the skier earns one point. So the more the skier earns points, the tougher the game becomes because of increased speeds of both the skier and the rhino.
+
+9.) **pause game feature**
+
+The game can be paused by pressing `SPACE KEY`, you also proceed with the game by pressing thesame key again. It pauses the game by stopping the continuous execution of the `move()` skier function in a loop.
 
 
-**DEPLOYMENT !!!!!**
-9.) Finally deployed app to a kubernetes cluster in gcp
+10.) **restart/reset game feature**
+
+Once the skier is eaten by the rhino, the game ends.
+You can however restart the game by pressing `ENTER KEY`. It basically works by resseting the state of rhino and skier objects i.e. skier's `isAlive` prop is set to true and rhinio's `isAwake` prop set to false, the speeds of both rhino and skier are also reset to default starting speeds. The same rules apply again and you can do this countless times.
+
+11.) **deployment!!!**
+
+Finally deployed the application to kubernetes cluster in google cloud platform (GCP).
+
 STEPS:
-- Modified webpack to include images that will be needed to run the application in production, this is with help of CopyWebpackPlugin.
-- Created a docker file that builds our app by placing it behind an nginx web server.
-- Added a shell script that runs tests, builds the application then builds the final image with the help of the docker file and uploads it to our gcr.io image repository.
-- Added a kubernetes deploment file that also creates a service and an ingress to allow us access the application from the internet.
-- link to the app: http://35.244.216.186/
+- Modified webpack to include images needed to run the application in production, this was done with help of CopyWebpackPlugin.
+- Created a docker file that builds our application image by packaging it together with nginx web server.
+- Added a shell script that runs tests, builds the application then package the final image with the help of the docker file. It finally uploads it to google cloud container repository.
+- Added a kubernetes deploment file that also creates a service and an ingress.
+- Link to the final app is: http://35.244.216.186/.
+
+**remarks**
+
+I've used a lot of observables to achieve an asynchronous behaviour of various functions in my code. I've specifically used `rxjs` library which provides a functional manner of doing this.

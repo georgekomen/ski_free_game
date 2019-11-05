@@ -25,8 +25,14 @@ export class Rect {
     }
 }
 
+/**
+ * 
+ * @param {Object {x: Number, y: Number} } pointA - x and y coordinates of a point
+ * @param {Object {x: Number, y: Number} } pointB - x and y coordinates of another point
+ * Calculate and returns the gradient between the two points
+ */
 export function getSlope(pointA, pointB) {
-    const Ydifference = (pointB.y - pointA.y);
-    const Xdifference = (pointB.x - pointA.x);
-    return (Ydifference / Xdifference);
+    const Ydifference = pointB.y - pointA.y;
+    const Xdifference = pointB.x - pointA.x;
+    return Ydifference / Xdifference;
 }

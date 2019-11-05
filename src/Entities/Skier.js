@@ -2,9 +2,18 @@ import * as Constants from "../Constants";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 import { Entity } from "./Entity";
 import { interval } from "rxjs";
-import { takeWhile,delay } from "rxjs/operators";
+import { takeWhile } from "rxjs/operators";
 
 export class Skier extends Entity {
+    behaviourState = {
+        isJumping: false,
+        hasStopped: false
+    };
+
+    /**
+     * @param {Number} x 
+     * @param {Number} y 
+     */
     constructor(x, y) {
         super(x, y);
         this.assetName = Constants.SKIER_DOWN;
@@ -12,30 +21,15 @@ export class Skier extends Entity {
         this.speed = Constants.SKIER_STARTING_SPEED;
         this.isAlive = true;
         this.score = 0;
-        this.scoreSkier();
-    }
-
-    scoreSkier() {
-        this.score = 0;
-        interval(Constants.SKIER_SCORING_INTERVAL)
-        .pipe(
-            delay(500),
-            takeWhile(() => this.isAlive)
-            )
-        .subscribe(() => {
-            if(this.isMoving()) {
-                ++this.score;
-            } else if (this.skierCrashed() && this.score > 0) {
-                this.score -= 0.5;
-            }
-        });
     }
 
     isMoving() {
-        return this.direction === 
-        (Constants.SKIER_DIRECTIONS.DOWN
-            || Constants.SKIER_DIRECTIONS.LEFT_DOWN
-            || Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
+        return (
+            this.direction ===
+            (Constants.SKIER_DIRECTIONS.DOWN ||
+                Constants.SKIER_DIRECTIONS.LEFT_DOWN ||
+                Constants.SKIER_DIRECTIONS.RIGHT_DOWN)
+        );
     }
 
     setDirection(direction) {
@@ -49,35 +43,61 @@ export class Skier extends Entity {
 
     ressurect() {
         this.isAlive = true;
+        this.speed = Constants.SKIER_STARTING_SPEED;
         this.moveSkierDown();
-        this.scoreSkier();
     }
 
-    displaySkierControls(canvas) {
+    /**
+     * @param {Canvas} canvas - a graphics container that will render in dom 
+     * @param {Number} rhinoSpeed - speed of rhino instantiated from the game class
+     * Prints on the screen state of the game e.g. rhino and skier speeds
+     */
+    displaySkierControls(canvas, rhinoSpeed) {
         let startingYposition = 7;
 
         const scoreDisplayText = `Current score: ${this.score}`;
-        const jumpInstr = 'Shift key - jump over rocks';
-        const restartInstr = 'Space key - restart game';
-        const moveInstr = 'Arrow keys - move skier';
+        const speedDisplayText = `Speeds: skier: ${this.speed.toFixed(2)}, rhino: ${rhinoSpeed.toFixed(2)}`;
+        const jumpInstr = "Shift key - jump over rocks";
+        const pauseInstr = "Space key - pause game";
+        const restartInstr = "Enter key - restart game";
+        const moveInstr = "Arrow keys - move skier";
 
-        const displayText = [scoreDisplayText, jumpInstr, restartInstr, moveInstr];
+        const displayText = [
+            scoreDisplayText,
+            speedDisplayText,
+            jumpInstr,
+            pauseInstr,
+            restartInstr,
+            moveInstr
+        ];
 
         displayText.forEach(text => {
             startingYposition += 11;
-            super.drawText(canvas, text, {x: 3, y: startingYposition}, {x: 500, y: 500});
+            super.drawText(
+                canvas,
+                text,
+                { x: 3, y: startingYposition },
+                { x: 500, y: 500 }
+            );
         });
     }
 
+    /**
+     * @param {Canvas} canvas 
+     * @param {Assetmanager} assetManager 
+     */
     draw(canvas, assetManager) {
-        if(!this.isAlive) {
+        if (!this.isAlive) {
             return;
         }
-        super.draw(canvas, assetManager)
+        super.draw(canvas, assetManager);
     }
 
+    /**
+     * @param {Number} assetId 
+     */
     updateAsset(assetId) {
-        if (this.isJumping()) {
+        if (this.behaviourState.isJumping) {
             this.assetName = Constants.SKIER_JUMPING_ASSET[assetId];
         } else {
             this.assetName = Constants.SKIER_DIRECTION_ASSET[assetId];
@@ -85,10 +105,10 @@ export class Skier extends Entity {
     }
 
     move() {
-        if(!this.isAlive) {
+        if (!this.isAlive) {
             return;
         }
-        switch(this.direction) {
+        switch (this.direction) {
             case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
                 this.moveSkierLeftDown();
                 break;
@@ -128,7 +148,7 @@ export class Skier extends Entity {
     }
 
     turnLeft() {
-        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
+        if (this.direction == Constants.SKIER_DIRECTIONS.DOWN) {
             this.setDirection(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.LEFT);
@@ -137,7 +157,7 @@ export class Skier extends Entity {
     }
 
     turnRight() {
-        if(this.direction == Constants.SKIER_DIRECTIONS.DOWN){
+        if (this.direction == Constants.SKIER_DIRECTIONS.DOWN) {
             this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT);
@@ -146,7 +166,10 @@ export class Skier extends Entity {
     }
 
     turnUp() {
-        if(this.direction === Constants.SKIER_DIRECTIONS.LEFT || this.direction === Constants.SKIER_DIRECTIONS.RIGHT) {
+        if (
+            this.direction === Constants.SKIER_DIRECTIONS.LEFT ||
+            this.direction === Constants.SKIER_DIRECTIONS.RIGHT
+        ) {
             this.moveSkierUp();
         }
     }
@@ -155,6 +178,10 @@ export class Skier extends Entity {
         this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
     }
 
+    /**
+     * @param {ObstacleManager} obstacleManager 
+     * @param {Assetmanager} assetManager 
+     */
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
         let obstacleName;
         const asset = assetManager.getAsset(this.assetName);
@@ -165,7 +192,7 @@ export class Skier extends Entity {
             this.y - asset.height / 4
         );
 
-        const collision = obstacleManager.getObstacles().find((obstacle) => {
+        const collision = obstacleManager.getObstacles().find(obstacle => {
             obstacleName = obstacle.getAssetName();
             const obstacleAsset = assetManager.getAsset(obstacleName);
             const obstaclePosition = obstacle.getPosition();
@@ -179,8 +206,8 @@ export class Skier extends Entity {
             return intersectTwoRects(skierBounds, obstacleBounds);
         });
 
-        if(collision) {
-            this.checkIfShouldJumpOrCrashAfterCollision(obstacleName);    
+        if (collision) {
+            this.checkIfShouldJumpOrCrashAfterCollision(obstacleName);
         }
     }
 
@@ -188,38 +215,56 @@ export class Skier extends Entity {
         return this.direction === Constants.SKIER_DIRECTIONS.CRASH;
     }
 
+    /**
+     * @param {String} obstacleName - name of obstacle skier just collided with
+     * The skier will either jump or crash depending on the obstacle
+     */
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
-        if (obstacleName === Constants.JUMP_RUMP || this.canJumpObstacle(obstacleName)) {
+        if (
+            obstacleName === Constants.JUMP_RUMP ||
+            this.canJumpObstacle(obstacleName)
+        ) {
             this.jump();
         } else {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
         }
     }
 
+    /**
+     * 
+     * @param {String} obstacleName - name of obstacle skier just collided with
+     * @returns A boolean value whether skier can jump the obstacle or not
+     */
     canJumpObstacle(obstacleName) {
-        return [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) && this.isJumping();
-    }
+        return jumpableObstacles().includes(obstacleName) &&
+            this.behaviourState.isJumping;
 
-    isJumping() {
-        return this.speed === Constants.SKIER_JUMPING_SPEED;
+        function jumpableObstacles() {
+            return [Constants.ROCK1, Constants.ROCK2];
+        }
     }
 
     jump() {
-        this.speed = Constants.SKIER_JUMPING_SPEED;
-        this.jumpingAnimation();
-        this.endJump();
+        this.behaviourState.isJumping = true;
+        this.subscribeToJumpingAnimation();
+        this.subscribeToEndJump();
     }
 
-    endJump() {
+    subscribeToEndJump() {
         setTimeout(() => {
-            this.speed = Constants.SKIER_STARTING_SPEED;
+            this.behaviourState.isJumping = false;
             this.updateAsset(this.direction);
         }, Constants.SKIER_JUMP_TIME);
     }
 
-    jumpingAnimation() {
+    subscribeToJumpingAnimation() {
         interval(Constants.SKIER_JUMP_TIME / 5)
-        .pipe(takeWhile(val => val !== Constants.SKIER_JUMPING.JUMP5, Constants.SKIER_JUMPING.JUMP5))
-        .subscribe(assetId => this.updateAsset(assetId));
+            .pipe(
+                takeWhile(
+                    val => val !== Constants.SKIER_JUMPING.JUMP5,
+                    Constants.SKIER_JUMPING.JUMP5
+                )
+            )
+            .subscribe(assetId => this.updateAsset(assetId));
     }
 }

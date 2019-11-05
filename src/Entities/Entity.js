@@ -20,6 +20,10 @@ export class Entity {
         };
     }
 
+     /**
+     * @param {Canvas} canvas 
+     * @param {Assetmanager} assetManager 
+     */
     draw(canvas, assetManager) {
         const asset = assetManager.getAsset(this.assetName);
         const drawX = this.x - asset.width / 2;
@@ -28,6 +32,13 @@ export class Entity {
         canvas.drawImage(asset, drawX, drawY, asset.width, asset.height);
     }
 
+    /**
+     * 
+     * @param {Canvas} canvas 
+     * @param {String} text - text to render in the view
+     * @param {Object {x: Number, y: Number} } position - position in the view where text should be rendered
+     * @param {Object {x: Number, y: Number} } size - box size in which text is rendered
+     */
     drawText(canvas, text, position, size) {
         canvas.fillText(text, position.x, position.y, size.x, size.y);
     }
