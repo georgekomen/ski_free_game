@@ -195,3 +195,4 @@ STEPS:
 **remarks**
 
 I've used a lot of observables to achieve an asynchronous behaviour of various functions in my code. I've specifically used `rxjs` library which provides a functional manner of doing this.
+I've used a naming convention that makes it easy to identify a function that runs asynchronously (or emits an observable) e.g. `subscribeTo....`
