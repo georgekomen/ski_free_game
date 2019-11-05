@@ -68,7 +68,7 @@ describe("rhino class", () => {
         const updateEatingAsset = jest.spyOn(rhino, "updateEatingAsset");
         rhino.isAwake = true;
 
-        rhino.eatSkierWithAnimation(skier);
+        rhino.subscribeToEatAnimation(skier);
         jest.advanceTimersByTime(2000);
 
         expect(updateEatingAsset).toHaveBeenCalledWith(

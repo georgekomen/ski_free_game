@@ -186,3 +186,6 @@ STEPS:
 - Added a shell script that runs tests, builds the application then package the final image with the help of the docker file. It finally uploads it to google cloud container repository.
 - Added a kubernetes deploment file that also creates a service and an ingress.
 - Link to the final app is: http://35.244.216.186/.
+
+**remarks**
+I've used a lot of observables to achieve an asynchronous behaviour of various functions in my code. I've specifically used `rxjs` library which provides a functional manner of doing this.

@@ -166,12 +166,12 @@ describe("skier turn behaviour", () => {
         });
 
         test("skier should increase speed when jumping and get animated", () => {
-            const jumpingAnimation = jest.spyOn(skier, "jumpingAnimation");
+            const subscribeToJumpingAnimation = jest.spyOn(skier, "subscribeToJumpingAnimation");
 
             skier.jump();
 
             expect(skier.speed).toBe(Constants.SKIER_JUMPING_SPEED);
-            expect(jumpingAnimation).toHaveBeenCalled();
+            expect(subscribeToJumpingAnimation).toHaveBeenCalled();
         });
 
         test("skier should be animated while jumping", () => {

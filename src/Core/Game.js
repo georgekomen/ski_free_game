@@ -79,7 +79,6 @@ export class Game {
     }
 
     subscribeToWakeUpRhino() {
-        // make a new subscription to wake up rhino after some time
         this.wakeUpRhinoSubscription = setTimeout(() => {
             this.rhino.appear(this.skier.getPosition());
         }, Constants.TIME_TO_WAKE_UP_RHINO);
@@ -118,7 +117,7 @@ export class Game {
     }
 
     endGame() {
-        this.rhino.eatSkierWithAnimation(this.skier);
+        this.rhino.subscribeToEatAnimation(this.skier);
         this.skier.eaten();
     }
 

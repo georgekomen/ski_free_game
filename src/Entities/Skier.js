@@ -243,18 +243,18 @@ export class Skier extends Entity {
 
     jump() {
         this.behaviourState.isJumping = true;
-        this.jumpingAnimation();
-        this.endJump();
+        this.subscribeToJumpingAnimation();
+        this.subscribeToEndJump();
     }
 
-    endJump() {
+    subscribeToEndJump() {
         setTimeout(() => {
             this.behaviourState.isJumping = false;
             this.updateAsset(this.direction);
         }, Constants.SKIER_JUMP_TIME);
     }
 
-    jumpingAnimation() {
+    subscribeToJumpingAnimation() {
         interval(Constants.SKIER_JUMP_TIME / 5)
             .pipe(
                 takeWhile(

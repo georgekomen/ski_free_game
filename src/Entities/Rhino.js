@@ -90,7 +90,7 @@ export class Rhino extends Entity {
     /**
      * @param {Skier} skier 
      */
-    eatSkierWithAnimation(skier) {
+    subscribeToEatAnimation(skier) {
         if (!skier.isAlive) {
             return;
         }
