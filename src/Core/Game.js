@@ -33,13 +33,24 @@ export class Game {
         await this.assetManager.loadAssets(Constants.ASSETS);
     }
 
-    run() {
-        this.canvas.clearCanvas();
+    pauseOrProceedGame() {
+        this.skier.behaviourState.hasStopped = !this.skier.behaviourState.hasStopped;
+    }
 
+    gamePaused() {
+       return this.skier.behaviourState.hasStopped;
+    }
+
+    run() {
+        requestAnimationFrame(this.run.bind(this));
+
+        if(this.gamePaused()) {
+            return;
+        }
+
+        this.canvas.clearCanvas();
         this.updateGameWindow();
         this.drawGameWindow();
-
-        requestAnimationFrame(this.run.bind(this));
     }
 
     subscribeToScoreSkier() {
@@ -137,7 +148,7 @@ export class Game {
     }
 
     handleKeyDown(event) {
-        if (event.which === Constants.KEYS.SPACE && this.gameEnded()) {
+        if (event.which === Constants.KEYS.ENTER && this.gameEnded()) {
             this.restartGame();
         } else if (this.gameEnded()) {
             // if game ended, no other action is allowed apart from restarting it
@@ -163,6 +174,10 @@ export class Game {
                 break;
             case Constants.KEYS.SHIFT:
                 this.skier.jump();
+                event.preventDefault();
+                break;
+            case Constants.KEYS.SPACE:
+                this.pauseOrProceedGame();
                 event.preventDefault();
                 break;
         }

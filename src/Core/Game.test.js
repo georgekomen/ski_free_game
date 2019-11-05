@@ -69,4 +69,16 @@ describe("game class", () => {
 
         expect(game.skier.score).toBe(0);
     });
+
+    test("should be able to pause game", () => {
+        expect(game.gamePaused()).toBe(false);
+
+        game.pauseOrProceedGame();
+
+        expect(game.gamePaused()).toBe(true);
+
+        game.pauseOrProceedGame();
+
+        expect(game.gamePaused()).toBe(false);
+    });
 });

@@ -171,12 +171,17 @@ The rhino is animated eating the skier. Each of the png images of rhino eating i
 
  Skier's and rhino's speed increases by 0.1 every the skier earns one point. So the more the skier earns points, the tougher the game becomes because of increased speeds of both the skier and the rhino.
 
-9.) **restart/reset game feature**
+9.) **pause game feature**
+
+The game can be paused by pressing `SPACE KEY`, you also proceed with the game by pressing thesame key again. It pauses the game by stopping the continuous execution of the `move()` skier function in a loop.
+
+
+10.) **restart/reset game feature**
 
 Once the skier is eaten by the rhino, the game ends.
-You can however restart the game by pressing `SPACE KEY`. It basically works by resseting the state of rhino and skier objects i.e. skier's `isAlive` prop is set to true and rhinio's `isAwake` prop set to false, the speeds of both rhino and skier are also reset to default starting speeds. The same rules apply again and you can do this countless times.
+You can however restart the game by pressing `ENTER KEY`. It basically works by resseting the state of rhino and skier objects i.e. skier's `isAlive` prop is set to true and rhinio's `isAwake` prop set to false, the speeds of both rhino and skier are also reset to default starting speeds. The same rules apply again and you can do this countless times.
 
-10.) **deployment!!!**
+11.) **deployment!!!**
 
 Finally deployed the application to kubernetes cluster in google cloud platform (GCP).
 

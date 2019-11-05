@@ -6,7 +6,8 @@ import { takeWhile } from "rxjs/operators";
 
 export class Skier extends Entity {
     behaviourState = {
-        isJumping: false
+        isJumping: false,
+        hasStopped: false
     };
 
     /**
