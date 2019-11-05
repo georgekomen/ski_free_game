@@ -45,4 +45,8 @@ export class Canvas {
 
         this.ctx.drawImage(image, x, y, width, height);
     }
+
+    fillText(text, x, y, width, height) {
+        this.ctx.fillText(text, x, y, width, height);
+    }
 }

@@ -6,12 +6,12 @@ describe('game class', () => {
     jest.useFakeTimers();
 
     test('rhino should wake up some time after game starts', () => {
-        const scheduleToWakeUpRhino = jest.spyOn(game, 'scheduleToWakeUpRhino');
+        const wakeUpRhinoSubscription = jest.spyOn(game, 'scheduleToWakeUpRhino');
 
         game.scheduleToWakeUpRhino();
         jest.advanceTimersByTime(20000);
 
-        expect(scheduleToWakeUpRhino).toHaveBeenCalled();
+        expect(wakeUpRhinoSubscription).toHaveBeenCalled();
         expect(game.rhino.isAwake).toBeTruthy();
     });
 

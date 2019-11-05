@@ -2,16 +2,40 @@ import * as Constants from "../Constants";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 import { Entity } from "./Entity";
 import { interval } from "rxjs";
-import { takeWhile } from "rxjs/operators";
+import { takeWhile,delay } from "rxjs/operators";
 
 export class Skier extends Entity {
-    assetName = Constants.SKIER_DOWN;
-    direction = Constants.SKIER_DIRECTIONS.DOWN;
-    speed = Constants.SKIER_STARTING_SPEED;
-    isAlive = true;
-
     constructor(x, y) {
         super(x, y);
+        this.assetName = Constants.SKIER_DOWN;
+        this.direction = Constants.SKIER_DIRECTIONS.DOWN;
+        this.speed = Constants.SKIER_STARTING_SPEED;
+        this.isAlive = true;
+        this.score = 0;
+        this.scoreSkier();
+    }
+
+    scoreSkier() {
+        this.score = 0;
+        interval(Constants.SKIER_SCORING_INTERVAL)
+        .pipe(
+            delay(500),
+            takeWhile(() => this.isAlive)
+            )
+        .subscribe(() => {
+            if(this.isMoving()) {
+                ++this.score;
+            } else if (this.skierCrashed() && this.score > 0) {
+                this.score -= 0.5;
+            }
+        });
+    }
+
+    isMoving() {
+        return this.direction === 
+        (Constants.SKIER_DIRECTIONS.DOWN
+            || Constants.SKIER_DIRECTIONS.LEFT_DOWN
+            || Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
     }
 
     setDirection(direction) {
@@ -26,6 +50,23 @@ export class Skier extends Entity {
     ressurect() {
         this.isAlive = true;
         this.moveSkierDown();
+        this.scoreSkier();
+    }
+
+    displaySkierControls(canvas) {
+        let startingYposition = 7;
+
+        const scoreDisplayText = `Current score: ${this.score}`;
+        const jumpInstr = 'Shift key - jump over rocks';
+        const restartInstr = 'Space key - restart game';
+        const moveInstr = 'Arrow keys - move skier';
+
+        const displayText = [scoreDisplayText, jumpInstr, restartInstr, moveInstr];
+
+        displayText.forEach(text => {
+            startingYposition += 11;
+            super.drawText(canvas, text, {x: 3, y: startingYposition}, {x: 500, y: 500});
+        });
     }
 
     draw(canvas, assetManager) {
@@ -141,6 +182,10 @@ export class Skier extends Entity {
         if(collision) {
             this.checkIfShouldJumpOrCrashAfterCollision(obstacleName);    
         }
+    }
+
+    skierCrashed() {
+        return this.direction === Constants.SKIER_DIRECTIONS.CRASH;
     }
 
     checkIfShouldJumpOrCrashAfterCollision(obstacleName) {
