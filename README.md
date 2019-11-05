@@ -188,4 +188,5 @@ STEPS:
 - Link to the final app is: http://35.244.216.186/.
 
 **remarks**
+
 I've used a lot of observables to achieve an asynchronous behaviour of various functions in my code. I've specifically used `rxjs` library which provides a functional manner of doing this.
