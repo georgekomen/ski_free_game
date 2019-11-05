@@ -19,8 +19,8 @@ export class Game {
         this.rhino = new Rhino(0, 0);
         this.obstacleManager = new ObstacleManager();
 
-        this.scheduleToWakeUpRhino();
-        this.scoreSkier();
+        this.subscribeToWakeUpRhino();
+        this.subscribeToScoreSkier();
 
         document.addEventListener("keydown", this.handleKeyDown.bind(this));
     }
@@ -42,11 +42,9 @@ export class Game {
         requestAnimationFrame(this.run.bind(this));
     }
 
-    scoreSkier() {
-        this.skier.score = 0;
+    subscribeToScoreSkier() {
         interval(Constants.SKIER_SCORING_INTERVAL)
             .pipe(
-                delay(500),
                 takeWhile(() => this.skier.isAlive)
             )
             .subscribe(() => {
@@ -60,30 +58,34 @@ export class Game {
             });
     }
 
+    resetSkierScore() {
+        this.skier.score = 0;
+    }
+
     restartGame() {
         if (!this.gameEnded()) {
             return;
         }
         this.skier.ressurect();
         this.rhino.hide();
-        this.scheduleToWakeUpRhino();
-        this.scoreSkier();
+        this.resetWakeUpRhinoSubscription();
+        this.subscribeToWakeUpRhino();
+        this.resetSkierScore();
+        this.subscribeToScoreSkier();
     }
 
     gameEnded() {
         return !this.skier.isAlive;
     }
 
-    scheduleToWakeUpRhino() {
-        this.resetWakeUpRhinoTimeOutSubscription();
-
+    subscribeToWakeUpRhino() {
         // make a new subscription to wake up rhino after some time
         this.wakeUpRhinoSubscription = setTimeout(() => {
             this.rhino.appear(this.skier.getPosition());
         }, Constants.TIME_TO_WAKE_UP_RHINO);
     }
 
-    resetWakeUpRhinoTimeOutSubscription() {
+    resetWakeUpRhinoSubscription() {
         clearTimeout(this.wakeUpRhinoSubscription);
     }
 

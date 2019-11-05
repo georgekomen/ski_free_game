@@ -92,7 +92,7 @@ how creative candidates get with this.
 
 We are looking forward to see what you come up with!
 
-                                            **************************************************
+                                       **************************************************
 
 ***George Komen's Solution***
 
@@ -162,14 +162,14 @@ The rhino is animated eating the skier. Each of the png images of rhino eating i
 
 7.) **scoring feature**
 
-- Skier gets scored one point after every 800 milliseconds of continuous movement.
+- Skier earns one point after every 800 ms of continuous movement.
 - He also get deducted 0.5 points for colliding with rock and trees. 
-- He looses 0.5 points every 800 milliseconds of staying in crash mode. To stop loosing points, the skier should immediately get up and move after a crash :-).
-* this time period of scoring i.e. 800ms is configurable in the constants file
+- He looses 0.5 points every 800 ms of staying in crash mode. To stop loosing points, the skier should immediately get up and move after a crash :-).
+* this time period of scoring i.e. 800 ms is configurable in the constants file.
 
 8.) **increasing difficulty feature**
 
-The skier's and rhino's speeds increases by 0.1 every the skier earns one point. So the more the skier moves and earns more points, the more the game gets tough because both his speed and that of the rhino increase.
+ Skier's and rhino's speed increases by 0.1 every the skier earns one point. So the more the skier earns points, the tougher the game becomes because of increased speeds of both the skier and the rhino.
 
 9.) **restart/reset game feature**
 
@@ -178,11 +178,11 @@ You can however restart the game by pressing `SPACE KEY`. It basically works by 
 
 10.) **deployment!!!**
 
-Finally deployed the application to a kubernetes cluster in google cloud platform (GCP).
+Finally deployed the application to kubernetes cluster in google cloud platform (GCP).
 
 STEPS:
 - Modified webpack to include images needed to run the application in production, this was done with help of CopyWebpackPlugin.
 - Created a docker file that builds our application image by packaging it together with nginx web server.
 - Added a shell script that runs tests, builds the application then package the final image with the help of the docker file. It finally uploads it to google cloud container repository.
 - Added a kubernetes deploment file that also creates a service and an ingress.
-- Link to the final app is: http://35.244.216.186/
+- Link to the final app is: http://35.244.216.186/.

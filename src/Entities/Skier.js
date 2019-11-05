@@ -233,10 +233,12 @@ export class Skier extends Entity {
      * @returns A boolean value whether skier can jump the obstacle or not
      */
     canJumpObstacle(obstacleName) {
-        return (
-            [Constants.ROCK1, Constants.ROCK2].includes(obstacleName) &&
-            this.behaviourState.isJumping
-        );
+        return jumpableObstacles().includes(obstacleName) &&
+            this.behaviourState.isJumping;
+
+        function jumpableObstacles() {
+            return [Constants.ROCK1, Constants.ROCK2];
+        }
     }
 
     jump() {
