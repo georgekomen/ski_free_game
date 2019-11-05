@@ -91,3 +91,71 @@ how creative candidates get with this.
 * Write more unit tests for your code
 
 We are looking forward to see what you come up with!
+
+
+
+***GEORGE KOMEN PROGRESS***
+1.) Crash bug fixed (*Actually two bugs, turning left or right after a crash*).
+
+Bug Description : Turning skier left after crashing into a rock or a tree caused the whole game to crash and end.
+
+**Root cause:**
+- Calling the function below when the skier has crashed means `this.direction` is `Constants.SKIER_DIRECTIONS.CRASH`
+ and therefore the else block will be executed.
+
+- From `Constants.SKIER_DIRECTIONS` enum, `CRASH` has the value number `0` and therefore executing the line 
+`this.setDirection(this.direction - 1)` tries to look for an asset from `Constants.SKIER_DIRECTION_ASSET` map with key `-1` which 
+does not exist e.g. `Constants.SKIER_DIRECTION_ASSET[-1]` then causes the error: `cannot read property 'width' of undefined`, asset is undefined.
+
+```
+turnLeft() {
+    if(this.direction === Constants.SKIER_DIRECTIONS.LEFT) {
+        this.moveSkierLeft();
+    }
+    else {
+        this.setDirection(this.direction - 1);
+    }
+}
+```
+**game crash unit tests**
+2.) Wrote unit tests to make sure the following conditions are satisfied by the new function:
+- skier should move left down if turned left while moving down.
+- skier should move left if turned left while moving left down.
+- skier should wake up facing left and move if turned left when crashed.
+* Same conditions apply when turning skier right after a crash.
+
+**Jumping feature**
+3.) Added jumping feature under the following conditions:
+- skier should always automatically jump over jumping rumps.
+- skier can jump over rocks by pressing `SHIFT KEY` just before colliding with the rock.
+- skier can never jump over tress even by pressing `SHIFT KEY`.
+* Unit tests to assert this conditions also included.
+
+To make an impression of a skier jumping, we increase his speed and change his asset for a specified amount of time. The skier 
+continues to move in the original direction only with an increased speed and a different asset.
+To end the jumping, we subscribe to a setTimeOut event that executes after our desired time of making the skier jump and in the 
+event callback we change skier's asset to match the direction he is currently heading to and set his speed to the normal starting speed.
+
+**jumping animations**
+4.) Animated skier jumping
+To do so, I've added a function that changes skier's asset from one jumping asset to the next at a set interval. It does so with the help of rxjs interval function that generates numbers from 0 - 5 and streams each individually at an interval of (`time taken to jump / number of jumping assets`).
+This is to make the animation be as smooth and fancy as much as possible. We then call the function that changes skier's asset in the callback.
+
+**rhino feature**
+5.) Added rhino preying on skier feature
+After some time of skier coming into live, a rhino will wake up some distance above the skier and starts chasing after the skier.
+The skier has more speed than the rhino and can only be caught if you keep colliding with rocks or trees.
+Once caught, the rhino eats the skier and the game ends.
+
+Points to note:
+- I've calculated the gradient / slope between the rhino and the skier to determine how the rhino will smoothly go after the skier from any direction.
+- I've added a field `isAlive` on skier class to help know if he has been caught and eated by the rhino. `isAlive` is false then we stop drawing the skier on the canvas. Also keys pressed to move the skier are disabled as well unless you press the space bar key.
+- Similarly the `isAwake` field of the rhino class helps us determine if it should keep going after the skier and appear on the screen or not.
+
+**eating animation**
+The rhino is animated eating the skier. Each of the png images illustrating eating is streamed one at a time with the help of rxjs and shown for 250 milliseconds untill the last one.
+
+**restart game**
+6.) Resart feature
+Once eated by a rhino, the game ends but you can restart by pressing `SPACE KEY`. The rhino will again appear after some time of skier
+ressurecting.
