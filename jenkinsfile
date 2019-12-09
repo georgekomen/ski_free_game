@@ -15,6 +15,6 @@ node{
     notify()
 }
 
-def notify(){
+notify(){
     emailext attachLog: true, body: 'hey your build is done, please check status', subject: 'build status', to: 'gkkomensi@gmail.com'
 }
