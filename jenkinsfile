@@ -1,0 +1,15 @@
+node{
+    stage('checkout') {
+       git 'https://github.com/georgekomen/ski_free_game.git'
+    }
+    
+    stage('test') {
+       sh label: 'build', script: '''npm install;
+        npm test;
+        npm run build;'''
+    }
+    
+    stage('archive') {
+       archiveArtifacts 'dist/**'
+    }
+}

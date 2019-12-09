@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: ski-game
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ski-game
-        image: gcr.io/trusty-solution-256615/ski-free-game:dis
+        image: gcr.io/trusty-solution-256615/ski-free-game:dis2
         ports:
         - containerPort: 80
 
